@@ -23,5 +23,5 @@ This scheme may become inefficient for very short time steps, but a good approxi
 References:
 
 - Beskos, A. and Roberts, G. O. (2005). Exact simulation of diffusions. The Annals of Applied Probability 15, 2422–2444.  
-- Devroye , L. (1986). Nonuniform Random Variate Generation. Springer, New York.
+- Devroye, L. (1986). Nonuniform Random Variate Generation. Springer, New York.
 - Jenkins, P. A., Spano, D., & Others. (2017). Exact simulation of the Wright--Fisher diffusion. The Annals of Applied Probability, 27(3), 1478–1509.
