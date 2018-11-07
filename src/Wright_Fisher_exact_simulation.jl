@@ -88,8 +88,13 @@ Sample exactly from the K dimensional Wright-Fisher transition function. Functio
 
 # Examples
 ```julia-repl
-julia> ExactWrightFisher.Wright_Fisher_K_dim_exact_transition(rand(Dirichlet(α_vec |> collect)), 0.5, α_vec)
-[0.02776997207332505, 0.2336806438432984, 0.07839887060526822, 0.6601505134781083]
+julia>
+α_vec = [1.2,1.4,1.3]
+Wright_Fisher_K_dim_exact_transition([0.2, 0.4, 0.4], 0.5, α_vec)
+3-element Array{Float64,1}:
+  0.37638432059656973
+  0.18253800610053464
+  0.44107767330289566
 ```
 """
 Wright_Fisher_K_dim_exact_transition(xvec::AbstractVector{T}, t::Real, αvec::AbstractVector{T}) where T<:Real = Wright_Fisher_K_dim_exact_transition(xvec, t, αvec, sum(αvec))
@@ -139,12 +144,13 @@ Sample exactly a K dimensional Wright-Fisher trajectory. Function may hang for t
 
 # Examples
 ```julia-repl
-julia> ExactWrightFisher.Wright_Fisher_K_dim_exact_trajectory(rand(Dirichlet(α_vec |> collect)), range(0, stop = 1, length = 10), α_vec)
-4×11 Array{Float64,2}:
- 1.06585e-5   1.06585e-5   1.08036e-5  …  0.000108104  0.00333635  0.022469
- 0.000657425  0.000657425  0.00340315     0.0150088    0.0103089   7.54402e-6
- 0.662003     0.662003     0.837201       0.978252     0.976614    0.943636
- 0.337329     0.337329     0.159385       0.00663071   0.00974101  0.0338876
+julia>
+α_vec = [1.2,1.4,1.3]
+Wright_Fisher_K_dim_exact_trajectory([0.2, 0.4, 0.4], range(0, stop = 1, length = 10), α_vec)
+3×11 Array{Float64,2}:
+ 0.2  0.2  0.288971  0.156417  0.0282289  …  0.443116  0.416719  0.435391
+ 0.4  0.4  0.302104  0.526393  0.57872       0.359188  0.36929   0.340048
+ 0.4  0.4  0.408926  0.31719   0.393051      0.197697  0.213991  0.22456
 ```
 """
 function Wright_Fisher_K_dim_exact_trajectory(initial_vec::AbstractVector{T}, times::AbstractVector{T}, αvec::AbstractVector{T}; use_progress_meter = false) where T<:Real
