@@ -11,14 +11,31 @@ function Wright_Fisher_exact_transition(x::Real, t::Real, theta_1::Real, theta_2
   end
 end
 
-function Wright_Fisher_exact_trajectory(initial_value::T, times::AbstractVector{T}, theta_1::Real, theta_2::Real) where T<:Real
+function cmp_1D_trajectory(initial_value::Real, times::AbstractVector{T}, transition_function::Function; use_progress_meter = false) where T<:Real
   trajectory = Array{Float64}(undef, length(times) + 1)
   times_with_0 = [0; times]
   trajectory[1] = initial_value
-  for i in 2:(length(times)+1)
-    trajectory[i] = Wright_Fisher_exact_transition(trajectory[i-1], times_with_0[i] - times_with_0[i-1], theta_1, theta_2)
+  imax = length(times)+1
+
+  if use_progress_meter
+    @showprogress 3 "Computing trajectory..." for i in 2:imax
+      trajectory[i] = transition_function(trajectory[i-1], times_with_0[i] - times_with_0[i-1])
+    end
+  else
+    for i in 2:imax
+      trajectory[i] = transition_function(trajectory[i-1], times_with_0[i] - times_with_0[i-1])
+    end
   end
   return trajectory
+end
+
+function Wright_Fisher_exact_trajectory(initial_value::Real, times::AbstractVector{T}, theta_1::Real, theta_2::Real; use_progress_meter = false) where T<:Real
+
+  function  WF_1D_transition_fun(st::Real, dt::Real)::Real
+    return Wright_Fisher_exact_transition(st, dt, theta_1, theta_2)
+  end
+
+  cmp_1D_trajectory(initial_value, times, WF_1D_transition_fun; use_progress_meter = use_progress_meter)
 end
 
 function Wright_Fisher_K_dim_exact_transition(xvec::AbstractVector{T}, t::Real, αvec::AbstractVector{T}, sα::Real) where T<:Real
