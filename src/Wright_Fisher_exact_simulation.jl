@@ -1,6 +1,6 @@
 using ProgressMeter
 
-function Wright_Fisher_exact_transition(x::T, t::T, theta_1::T, theta_2::T) where T<:Real
+function Wright_Fisher_exact_transition(x::Real, t::Real, theta_1::Real, theta_2::Real)
   if t == 0
     return x
   else
