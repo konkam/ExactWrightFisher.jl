@@ -7,3 +7,4 @@ using ExactWrightFisher
 include("test_helper_functions.jl")
 include("test_A_infinity_functions.jl")
 include("test_exact_wright_fisher_functions.jl")
+include("test_semi_exact_wright_fisher_functions.jl")
