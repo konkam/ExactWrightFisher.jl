@@ -90,7 +90,7 @@ end
 
 
 
-function Compute_A∞(θ::Real, t::Real; m::T = 0, kvec::Array{T,1} = [0]) where
+function Compute_A∞_start0(θ::Real, t::Real; m::T = 0, kvec::Array{T,1} = [0]) where
 T<:Integer
   U = rand(Uniform())
   return Compute_A∞_given_U(θ, t, U, m, kvec)
@@ -153,6 +153,7 @@ function Compute_A∞_good_m_start(θ::Real, t::Real)
   kvec0::Array{Int64,1} = ceil.(C_m_t_θ.(0:m0, t, θ) ./ 2)
   # println(kvec0)
   # println(length(kvec0))
-  U = rand(Uniform())
-  Compute_A∞_given_U(θ, t, U, m0, kvec0)
+  return Compute_A∞_start0(θ, t, m = m0, kvec = kvec0)
 end
+
+Compute_A∞(θ::Real, t::Real) = Compute_A∞_good_m_start(θ, t)
