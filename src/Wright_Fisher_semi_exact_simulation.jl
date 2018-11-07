@@ -1,4 +1,4 @@
-function Wright_Fisher_K_dim_with_t005_approx(xvec::AbstractVector{T}, t::Real, αvec::AbstractVector{T}, sα::Real) where T<:Real
+function Wright_Fisher_K_dim_transition_with_t005_approx(xvec::AbstractVector{T}, t::Real, αvec::AbstractVector{T}, sα::Real) where T<:Real
   # sα = sum(αvec)
   if t==0
     return xvec
@@ -16,7 +16,7 @@ function Wright_Fisher_K_dim_trajectory_with_t005_approx(initial_vec::AbstractVe
   sα = sum(αvec)
 
   function WF_exact_transition_function(st::AbstractVector{T}, dt::Real)::Vector{Float64}  where T<:Real
-    return Wright_Fisher_K_dim_with_t005_approx(st, dt, αvec, sα)
+    return Wright_Fisher_K_dim_transition_with_t005_approx(st, dt, αvec, sα)
   end
 
   return cmp_K_dim_trajectory(initial_vec, times, WF_exact_transition_function)
