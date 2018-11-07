@@ -1,3 +1,3 @@
 using Documenter, ExactWrightFisher
 
-makedocs(sitename="My Documentation")
+makedocs(sitename="ExactWrightFisher.jl")
