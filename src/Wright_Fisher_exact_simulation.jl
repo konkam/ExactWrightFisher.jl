@@ -35,7 +35,7 @@ function Wright_Fisher_exact_trajectory(initial_value::Real, times::AbstractVect
     return Wright_Fisher_exact_transition(st, dt, theta_1, theta_2)
   end
 
-  cmp_1D_trajectory(initial_value, times, WF_1D_transition_fun; use_progress_meter = use_progress_meter)
+  return cmp_1D_trajectory(initial_value, times, WF_1D_transition_fun; use_progress_meter = use_progress_meter)
 end
 
 function Wright_Fisher_K_dim_exact_transition(xvec::AbstractVector{T}, t::Real, αvec::AbstractVector{T}, sα::Real) where T<:Real

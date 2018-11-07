@@ -8,6 +8,8 @@ using Random, Distributions
     for i in 1:length(res)
         @test res[i] ≈ [0.5, 0.7391267869778926, 0.9831515518978562, 0.804459370375562, 0.779192030871938, 0.6671481291268048][i] atol=10^(-8)
     end
+    @test_nowarn ExactWrightFisher.Wright_Fisher_exact_trajectory(0.5, range(0.1, stop = 1, length = 5), 0.75/2, 0.75/2; use_progress_meter = true)
+
     Random.seed!(0)
     α_vec = (1:4)/4
     res = ExactWrightFisher.Wright_Fisher_K_dim_exact_transition(rand(Dirichlet(α_vec |> collect)), 0.5, α_vec, sum(α_vec))
