@@ -5,11 +5,6 @@ using Distributions, SpecialFunctions
       log of Eq. (5) of Jenkins, P. A., & Spano, D. (2017). Exact simulation of the Wright--Fisher diffusion. The Annals of Applied Probability, 27(3), 1478–1509.
 
 ``\$ a_{km}^θ = \frac{()θ+2k-1)(θ+m)_{(k-1)}}{m!(k-m)!}\$``
-# Examples
-```julia-repl
-julia> ExactWrightFisher.Compute_A∞(1.5, 1.) == 2
-2
-```
 """
 function log_akmθ(θ::Real, k::Integer, m::Integer)
   if k < m
@@ -170,12 +165,14 @@ end
 
 
 """
-      Simulates from the ancestral process A∞(t) of Kingman’s co-
-alescent with mutation. At the moment, this function starts from a rough guess to increase the acceptance rate of the algorithm. The guess is based on a small time step approximation of the transition function.
+      Return a sample from the ancestral process A∞(t) of Kingman’s co-
+alescent with mutation.
+
+At the moment, this function starts from a rough guess to increase the acceptance rate of the algorithm. The guess is based on a small time step approximation of the transition function.
 
 # Examples
 ```julia-repl
-julia> ExactWrightFisher.Compute_A∞(1.5, 1.) == 2
+julia> ExactWrightFisher.Compute_A∞(1.5, 1.)
 2
 ```
 """

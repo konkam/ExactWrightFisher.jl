@@ -8,6 +8,10 @@ function σ(t::Real, θ::Real)
   end
 end
 
+"""
+      Normal approximation of the transition function, valid for small time steps. In practice, used when t<=0.05. This is Theorem 1 of Jenkins, P. A., & Spano, D. (2017). Exact simulation of the Wright--Fisher diffusion. The Annals of Applied Probability, 27(3), 1478–1509.
+
+"""
 function Compute_A∞_approx(θ::Real, t::Real)
   A∞_real = rand(Normal(μ(t, θ), σ(t, θ)))
   if A∞_real<=0
