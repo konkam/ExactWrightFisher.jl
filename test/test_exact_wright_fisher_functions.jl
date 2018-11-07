@@ -22,4 +22,5 @@ using Random, Distributions
     for i in 1:length(res[:,end])
         @test res[i, end] ≈ [0.52047555209178, 0.04761111823097684, 1.3036544865733622e-5, 0.4319002931323774][i] atol=10^(-8)
     end
+    @test_nowarn ExactWrightFisher.Wright_Fisher_K_dim_exact_trajectory(rand(Dirichlet(α_vec |> collect)), range(0, stop = 1, length = 10), α_vec; use_progress_meter = true)
 end
