@@ -1,5 +1,5 @@
 # ExactWrightFisher
-Exact simulation of the neutral Wright-Fisher diffusion
+Exact simulation of the neutral Wright-Fisher diffusion.
 
 
 Implementation of the exact simulation scheme of Jenkins, P. A., Spano, D., & Others. (2017). Exact simulation of the Wright--Fisher diffusion. The Annals of Applied Probability, 27(3), 1478–1509.
@@ -20,7 +20,9 @@ The scheme uses a retrospective approach similar to the *exact algorithms* of Be
 
 This scheme may become inefficient for very short time steps, but a good approximation may then be used.
 
-References:
+A graphical comparison of simulated samples against the stationary distribution is available [here](test/Graphical%20tests%20of%20the%20Wright-Fisher%20exact%20simulation.ipynb).
+
+**References**:
 
 - Beskos, A. and Roberts, G. O. (2005). Exact simulation of diffusions. The Annals of Applied Probability 15, 2422–2444.  
 - Devroye, L. (1986). Nonuniform Random Variate Generation. Springer, New York.
