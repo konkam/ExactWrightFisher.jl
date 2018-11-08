@@ -4,6 +4,7 @@ using Random, Distributions
     #Commented lines should be valid when using the A∞ function starting at 0
     Random.seed!(0)
     @test ExactWrightFisher.Wright_Fisher_exact_transition(0.5, 0.54, 0.75/2, 0.75/2) ≈ 0.9177951585792223 atol=10^(-8)
+    @test ExactWrightFisher.Wright_Fisher_exact_transition(0.5, 0., 0.75/2, 0.75/2) == 0.5
     Random.seed!(0)
     res =  ExactWrightFisher.Wright_Fisher_exact_trajectory(0.5, range(0.1, stop = 1, length = 5), 0.75/2, 0.75/2)
     # for i in 1:length(res)
