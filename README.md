@@ -32,7 +32,7 @@ pkg> add https://github.com/konkam/ExactWrightFisher.jl
 
 # How to use the package
 
-The package is developed for Julia 1.0
+The package is developed for Julia 1.0. An R/Rcpp implementation is available on request.
 
 To load the package, input:
 ```julia
