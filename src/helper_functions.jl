@@ -41,7 +41,7 @@ function signed_log_sum_exp(lx, signs)
   m = maximum(lx)
   scaled_sum = sum(signs .* exp.(lx .- m))
   if scaled_sum == 0
-    return [1., 0.]
+    return [1., -Inf]
   elseif scaled_sum < 0
     sgn = -1
     scaled_sum = -1*scaled_sum

@@ -10,5 +10,5 @@ using StatsFuns
     @test res[1] == -1.0
     res = ExactWrightFisher.signed_log_sum_exp([2, 2, 4, 4], [1, -1, 1, -1])
     @test res[1] == 1.0
-    @test res[2] == 0
+    @test res[2] == -Inf
 end
