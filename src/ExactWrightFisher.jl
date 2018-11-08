@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/konkam/ExactWrightFisher.jl/badge.svg?branch=master)](https://coveralls.io/github/konkam/ExactWrightFisher.jl?branch=master)
+
 module ExactWrightFisher
 
 greet() = print("Hello World!")
