@@ -51,7 +51,7 @@ T<:Integer
       cnt += 1;
     end
   end
-  return signed_log_sum_exp(logterms, signs);
+  return signed_logsumexp(logterms, signs);
 end
 
 S_kvec_M_plus_logsum_nosign(kvec::Array{T, 1}, t::Real, θ::Real) where
@@ -76,7 +76,7 @@ T<:Integer
   sum_logS_kvec_M_plus_res = logS_kvec_M_plus_res[2]
 
   log_newterms = S_kvec_M_minus_log_newterms(kvec, t, θ)
-  logsum_newterms =  signed_log_sum_exp(log_newterms, repeat([1.], length(log_newterms)))[2]
+  logsum_newterms =  signed_logsumexp(log_newterms, repeat([1.], length(log_newterms)))[2]
   S_kvec_M_minus_res = 0.
 
   if sgn_logS_kvec_M_plus_res == -1

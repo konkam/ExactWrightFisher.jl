@@ -19,7 +19,7 @@ function minus_1_power_i(i::Int64)
 end
 
 """
-    signed_log_sum_exp(lx, signs)
+    signed_logsumexp(lx, signs)
 
 logsumexp with potentially subtraction of terms.
 
@@ -31,13 +31,13 @@ logsumexp with potentially subtraction of terms.
 
 # Examples
 ```julia-repl
-julia>signed_log_sum_exp([0.2, -3., 1], [1, 1, -1])
+julia>signed_logsumexp([0.2, -3., 1], [1, 1, -1])
 2-element Array{Float64,1}:
  -1.0
   0.36955602678296184
 ```
 """
-function signed_log_sum_exp(lx, signs)
+function signed_logsumexp(lx, signs)
   m = maximum(lx)
   scaled_sum = sum(signs .* exp.(lx .- m))
   if scaled_sum == 0
