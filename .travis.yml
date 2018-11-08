@@ -4,4 +4,3 @@ os:
 julia:
   - 1.0
 codecov: true
-coveralls: true
