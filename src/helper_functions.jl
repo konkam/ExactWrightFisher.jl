@@ -40,7 +40,7 @@ julia>signed_logsumexp([0.2, -3., 1], [1, 1, -1])
 function signed_logsumexp(lx, signs)
   m = maximum(lx)
   scaled_sum = sum(signs .* exp.(lx .- m))
-  if abs(scaled_sum) <= eps(Float64)
+  if abs(scaled_sum) <= 10*eps(Float64)
     return [1., -Inf]
   elseif scaled_sum < 0
     sgn = -1
