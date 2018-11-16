@@ -6,9 +6,15 @@ using StatsFuns
     res = ExactWrightFisher.signed_logsumexp(log.(1:5), repeat([1],5))
     @test res[1] == 1
     @test logsumexp(log.(1:5)) == res[2]
+    
     res = ExactWrightFisher.signed_logsumexp([2, 4, 2], [1, -1, 1])
     @test res[1] == -1.0
+
     res = ExactWrightFisher.signed_logsumexp([2, 2, 4, 4], [1, -1, 1, -1])
+    @test res[1] == 1.0
+    @test res[2] == -Inf
+
+    res = ExactWrightFisher.signed_logsumexp([log(3), log(3), log(4), log(4)], [1, -1, 1, -1])
     @test res[1] == 1.0
     @test res[2] == -Inf
 end
