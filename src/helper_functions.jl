@@ -38,6 +38,7 @@ julia>signed_logsumexp([0.2, -3., 1], [1, 1, -1])
 ```
 """
 # function signed_logsumexp(lx, signs)
+## There might potentially be a problem when the larger terms cancel each other
 #   m = maximum(lx)
 #   scaled_sum = sum(signs .* exp.(lx .- m))
 #   if abs(scaled_sum) <= 10*eps(Float64)
@@ -52,6 +53,7 @@ julia>signed_logsumexp([0.2, -3., 1], [1, 1, -1])
 # end
 
 function signed_logsumexp(lx, signs)
+  # summing the positive terms together and the negative terms together should decrease the probability of cancellation of large terms
   # @assert length(lx) == length(signs)
   # pos = signs .== 1
   if all(signs .> 0)
