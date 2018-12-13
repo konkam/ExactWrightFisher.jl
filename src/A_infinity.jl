@@ -40,7 +40,9 @@ T<:Integer
 
   two_kvec_plus_1 = sum(2*kvec .+ 1)
 
-  logterms = Array{Float64}(undef, two_kvec_plus_1)
+  U = typeof(t)
+
+  logterms = Array{U}(undef, two_kvec_plus_1)
   signs = Array{Float64}(undef, two_kvec_plus_1)
   cnt = 1
   for m in 0:(M-1)
