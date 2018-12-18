@@ -1,3 +1,9 @@
+[[AbstractAlgebra]]
+deps = ["InteractiveUtils", "LinearAlgebra", "Markdown", "Random", "SparseArrays", "Test"]
+git-tree-sha1 = "7813eafc528aafc58e4aeb039db06f4809b832c9"
+uuid = "c3fe647b-3220-5bb0-a1ea-a7954cac585d"
+version = "0.3.0"
+
 [[Arpack]]
 deps = ["BinaryProvider", "Libdl", "LinearAlgebra", "Random", "SparseArrays", "Test"]
 git-tree-sha1 = "1ce1ce9984683f0b6a587d5bdbc688ecb480096f"
@@ -78,6 +84,12 @@ version = "0.3.1"
 
 [[Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
+
+[[Nemo]]
+deps = ["AbstractAlgebra", "InteractiveUtils", "Libdl", "LinearAlgebra", "Markdown", "Test"]
+git-tree-sha1 = "2403b8b9aec9374aaa29ad035998c01697ffa883"
+uuid = "2edaba10-b0f1-5616-af89-8c11ac63239a"
+version = "0.11.0"
 
 [[OrderedCollections]]
 deps = ["Random", "Serialization", "Test"]
