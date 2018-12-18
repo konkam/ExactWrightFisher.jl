@@ -77,3 +77,17 @@ function signed_logsumexp(lx, signs)
     return [sgn, res]
   end
 end
+
+import Base.sign
+
+function sign(x::arb)
+    if x < 0
+        return -1
+    else
+        return 1
+    end
+end
+function signed_logsumexp_arb(lx, signs)
+    res = sum(exp.(RR.(lx)) .* signs)
+    return sign(res), log(abs(res))
+end
