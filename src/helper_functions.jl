@@ -62,8 +62,8 @@ function signed_logsumexp(lx, signs)
     return [-1.0, logsumexp(lx)]
   else
     n = length(lx)
-    @inbounds logsumexp_positive_terms = logsumexp(lx[i] for i in 1:n if signs[i] > 0)
-    @inbounds logsumexp_negative_terms = logsumexp(lx[i] for i in 1:n if signs[i] < 0)
+    @inbounds logsumexp_positive_terms = logsumexp([lx[i] for i in 1:n if signs[i] > 0])
+    @inbounds logsumexp_negative_terms = logsumexp([lx[i] for i in 1:n if signs[i] < 0])
     if logsumexp_positive_terms > logsumexp_negative_terms
       sgn = 1
       res = log(1-exp(logsumexp_negative_terms - logsumexp_positive_terms)) + logsumexp_positive_terms
