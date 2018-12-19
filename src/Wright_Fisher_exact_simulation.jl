@@ -27,6 +27,16 @@ function Wright_Fisher_exact_transition(x::Real, t::Real, θ_1::Real, θ_2::Real
     return Y
   end
 end
+function Wright_Fisher_exact_transition_arb(x::Real, t::Real, θ_1::Real, θ_2::Real)
+  if t == 0
+    return x
+  else
+    A∞ = Compute_A∞_arb(θ_1 + θ_2, t)
+    L = rand(Binomial(A∞, x))
+    Y = rand(Beta(θ_1 + L, θ_2 + A∞ - L))
+    return Y
+  end
+end
 
 function cmp_1D_trajectory(initial_value::Real, times::AbstractVector{T}, transition_function::Function; use_progress_meter = false) where T<:Real
   trajectory = Array{Float64}(undef, length(times) + 1)
@@ -70,6 +80,15 @@ function Wright_Fisher_exact_trajectory(initial_value::Real, times::AbstractVect
 
   function  WF_1D_transition_fun(st::Real, dt::Real)::Real
     return Wright_Fisher_exact_transition(st, dt, θ_1, θ_2)
+  end
+
+  return cmp_1D_trajectory(initial_value, times, WF_1D_transition_fun; use_progress_meter = use_progress_meter)
+end
+
+function Wright_Fisher_exact_trajectory_arb(initial_value::Real, times::AbstractVector{T}, θ_1::Real, θ_2::Real; use_progress_meter = false) where T<:Real
+
+  function  WF_1D_transition_fun(st::Real, dt::Real)::Real
+    return Wright_Fisher_exact_transition_arb(st, dt, θ_1, θ_2)
   end
 
   return cmp_1D_trajectory(initial_value, times, WF_1D_transition_fun; use_progress_meter = use_progress_meter)

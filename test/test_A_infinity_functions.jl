@@ -1,4 +1,4 @@
-using Random
+using Random, Distributions
 
 @testset "testing Ancestor(A∞) functions" begin
     @test ExactWrightFisher.log_akmθ(0.75, 6, 4) ≈ 8.026285751157305 atol=10^(-8)
@@ -45,6 +45,12 @@ using Random
     res = ExactWrightFisher.Compute_A∞_given_U(sum(1:4), 0.05, 0.6, 0, [0])
     @test ref == res
     @test ref == 36
+
+    Random.seed!(0);
+    U = rand(Uniform())
+    ref = ExactWrightFisher.Compute_A∞_given_U_arb(sum(1:4), 0.05, U, 0, [0])
+    res = ExactWrightFisher.Compute_A∞_given_U(sum(1:4), 0.05, U, 0, [0])
+
     Random.seed!(0)
     @test ExactWrightFisher.Compute_A∞(sum((1:4)), 0.05) == 37  ###This is because there is floating point inaccuracies
     Random.seed!(0)
