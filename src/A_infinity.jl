@@ -109,12 +109,9 @@ end
 
 function S_kvec_M_both_logsumexp_inner(kvec::Array{T, 1}, t::Real, θ::Real, logS_kvec_M_plus_res, log_newterms, logsum_newterms) where
 T<:Integer
-  # logS_kvec_M_plus_res = S_kvec_M_plus_logsum(kvec, t, θ)
   sgn_logS_kvec_M_plus_res = logS_kvec_M_plus_res[1]
   sum_logS_kvec_M_plus_res = logS_kvec_M_plus_res[2]
 
-  # log_newterms = S_kvec_M_minus_log_newterms(kvec, t, θ)
-  # logsum_newterms =  signed_logsumexp(log_newterms, repeat([1.], length(log_newterms)))[2]
   S_kvec_M_minus_res = 0.
 
   if sgn_logS_kvec_M_plus_res == -1
@@ -137,6 +134,12 @@ function Compute_A∞_start0(θ::Real, t::Real; m::T = 0, kvec::Array{T,1} = [0]
 T<:Integer
   U = rand(Uniform())
   return Compute_A∞_given_U(θ, t, U, m, kvec)
+end
+
+function Compute_A∞_start0_arb(θ::Real, t::Real; m::T = 0, kvec::Array{T,1} = [0]) where
+T<:Integer
+  U = rand(Uniform())
+  return Compute_A∞_given_U_arb(θ, t, U, m, kvec)
 end
 
 function Compute_A∞_given_U(θ, t, U, m, kvec)
@@ -169,6 +172,37 @@ function Compute_A∞_given_U(θ, t, U, m, kvec)
   end
 end
 
+function Compute_A∞_given_U_arb(θ, t, U, m, kvec)
+  ### 0 indexing to stick with the article's notation
+  while true
+    # n = n+1
+    # print(n)
+    # if (n > 100){
+    #   # return(m)
+    #   break()
+    # }
+    # print(m)
+    kvec[m+1] = ceil(C_m_t_θ(m, t, θ)/2)
+    # kvec[m] = ceil(C_m_t_θ(m, t, θ)/2)
+    # print(km)
+    S_kvec_M_BOTH = S_kvec_M_both_logsumexp_arb(kvec, t, θ)
+    while (S_kvec_M_BOTH[1] < U) && (S_kvec_M_BOTH[2] > U)
+      kvec = kvec .+ 1
+      # print(kvec)
+      S_kvec_M_BOTH = S_kvec_M_both_logsumexp_arb(kvec, t, θ)
+    end
+    if S_kvec_M_BOTH[1] > U
+      # print(paste('A∞ = ', m))
+      return m
+      # break()
+    elseif (S_kvec_M_BOTH[2] < U)
+      push!(kvec,0)
+      m = m + 1
+    end
+  end
+end
+
+
 function β(θ::Real, t::Real)
   if θ == 0
     return 0
@@ -199,6 +233,14 @@ function Compute_A∞_good_m_start(θ::Real, t::Real)
   return Compute_A∞_start0(θ, t, m = m0, kvec = kvec0)
 end
 
+function Compute_A∞_good_m_start_arb(θ::Real, t::Real)
+  m0::Int64 = μ(t, θ) |> round
+  # println(m0)
+  kvec0::Array{Int64,1} = ceil.(C_m_t_θ.(0:m0, t, θ) ./ 2)
+  # println(kvec0)
+  # println(length(kvec0))
+  return Compute_A∞_start0_arb(θ, t, m = m0, kvec = kvec0)
+end
 
 """
       Return a sample from the ancestral process A∞(t) of Kingman’s co-
@@ -213,3 +255,4 @@ julia> ExactWrightFisher.Compute_A∞(1.5, 1.)
 ```
 """
 Compute_A∞(θ::Real, t::Real) = Compute_A∞_good_m_start(θ, t)
+Compute_A∞_arb(θ::Real, t::Real) = Compute_A∞_good_m_start_arb(θ, t)

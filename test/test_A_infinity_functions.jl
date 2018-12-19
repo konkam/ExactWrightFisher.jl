@@ -29,17 +29,22 @@ using Random
     @test res[1] ≈ Float64(ref[1])
     @test res[2] ≈ Float64(ref[2])
 
-    # ExactWrightFisher.S_kvec_M_plus_logsum_nosign([1,3,5], 0.2, 0.75) ≈ -0.6936149059655459 atol=10^(-8)
-    # @test ExactWrightFisher.S_kvec_M_plus_logsum_nosign([1,3,50,100], 0.2, 0.75) ≈ -0.6945637479851614 atol=10^(-8)
-    # @test ExactWrightFisher.S_kvec_M_plus_logsum_nosign([1,3,50,10], 0.0002, 75.) ≈ 125.40882239903411 atol=10^(-8)
-    # Random.seed!(0)
-    # @test ExactWrightFisher.Compute_A∞(1.5, 1.) == 2
-    # @test ExactWrightFisher.β(1.5,0.05) == 0.0125
-    # @test ExactWrightFisher.β(0.,0.05) == 0.
-    # @test ExactWrightFisher.η_of_β(0.02) ≈ 0.9900333331111149 atol=10^(-8)
-    # @test ExactWrightFisher.η_of_β(1.) == 1.
-    # @test ExactWrightFisher.η(1.5, 0.05) ≈ 0.9937630207994219 atol=10^(-8)
-    # @test ExactWrightFisher.μ(1.5, 0.05) ≈ 1.864268029836541 atol=10^(-8)
-    # Random.seed!(0)
-    # @test ExactWrightFisher.Compute_A∞_good_m_start(sum((1:4)), 0.05) == 38
+    @test ExactWrightFisher.S_kvec_M_plus_logsum_nosign([1,3,5], 0.2, 0.75) ≈ -0.6936149059655459 atol=10^(-8)
+    @test ExactWrightFisher.S_kvec_M_plus_logsum_nosign([1,3,50,100], 0.2, 0.75) ≈ -0.6945637479851614 atol=10^(-8)
+    @test ExactWrightFisher.S_kvec_M_plus_logsum_nosign([1,3,50,10], 0.0002, 75.) ≈ 125.40882239903411 atol=10^(-8)
+    Random.seed!(0)
+    @test ExactWrightFisher.Compute_A∞(1.5, 1.) == 2
+    @test ExactWrightFisher.β(1.5,0.05) == 0.0125
+    @test ExactWrightFisher.β(0.,0.05) == 0.
+    @test ExactWrightFisher.η_of_β(0.02) ≈ 0.9900333331111149 atol=10^(-8)
+    @test ExactWrightFisher.η_of_β(1.) == 1.
+    @test ExactWrightFisher.η(1.5, 0.05) ≈ 0.9937630207994219 atol=10^(-8)
+    @test ExactWrightFisher.μ(1.5, 0.05) ≈ 1.864268029836541 atol=10^(-8)
+
+    @test ExactWrightFisher.Compute_A∞_given_U(sum(1:4), 0.05, 0.6, 0, [0]) == 32 ###This is because there is floating point inaccuracies
+    @test ExactWrightFisher.Compute_A∞_given_U_arb(sum(1:4), 0.05, 0.6, 0, [0]) == 36
+    Random.seed!(0)
+    @test ExactWrightFisher.Compute_A∞(sum((1:4)), 0.05) == 36  ###This is because there is floating point inaccuracies
+    Random.seed!(0)
+    @test ExactWrightFisher.Compute_A∞_arb(sum((1:4)), 0.05) == 38
 end
