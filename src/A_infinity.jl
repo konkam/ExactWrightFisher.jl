@@ -13,7 +13,7 @@ function log_akmθ(θ::Real, k::Integer, m::Integer)
   if k == 0
     return 0
   else
-    return log(θ+2*k-1) + lgamma(θ+m+k-1) - lgamma(θ+m) - lfactorial(m) - lfactorial(k-m)
+    return log(θ+2*k-1) + SpecialFunctions.lgamma(θ+m+k-1) - SpecialFunctions.lgamma(θ+m) - lfactorial(m) - lfactorial(k-m)
   end
 end
 
@@ -34,7 +34,7 @@ function C_m_t_θ(m::Integer, t::Real, θ::Real)
   return C_m_t_θ_rec(m, t, θ, log_bk_t_θ_t(m, t, θ, m), 0)
 end
 
-function S_kvec_M_plus_logsum(kvec::Array{T, 1}, t::Real, θ::Real) where
+function S_kvec_M_plus_logsum_pre_logsum(kvec::Array{T, 1}, t::Real, θ::Real) where
 T<:Integer
   M = length(kvec)
 
@@ -53,7 +53,19 @@ T<:Integer
       cnt += 1;
     end
   end
+  return logterms, signs
+end
+
+function S_kvec_M_plus_logsum(kvec::Array{T, 1}, t::Real, θ::Real) where
+T<:Integer
+  logterms, signs = S_kvec_M_plus_logsum_pre_logsum(kvec, t, θ)
   return signed_logsumexp(logterms, signs);
+end
+
+function S_kvec_M_plus_logsum_arb(kvec::Array{T, 1}, t::Real, θ::Real) where
+T<:Integer
+  logterms, signs = S_kvec_M_plus_logsum_pre_logsum(kvec, t, θ)
+  return signed_logsumexp_arb(logterms, signs)
 end
 
 S_kvec_M_plus_logsum_nosign(kvec::Array{T, 1}, t::Real, θ::Real) where
