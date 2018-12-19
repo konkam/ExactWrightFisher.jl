@@ -9,9 +9,20 @@ using Random
     @test res[1] == ref[1]
     @test res[2] ≈ Float64(ref[2])
 
-    # res = ExactWrightFisher.S_kvec_M_both_logsumexp([1,3,5], 0.2, 0.75)
-    # @test res[1] == -0.2155481972208509 atol=10^(-8)
-    # @test res[2] ≈ 0.4997661919804376 atol=10^(-8)
+    ref = ExactWrightFisher.S_kvec_M_both_logsumexp_arb([1,3,5], 0.2, 0.75)
+    res = ExactWrightFisher.S_kvec_M_both_logsumexp([1,3,5], 0.2, 0.75)
+    @test res[1] ≈ Float64(ref[1])
+    @test res[2] ≈ Float64(ref[2])
+
+    ref = ExactWrightFisher.S_kvec_M_both_logsumexp_arb([1,3,50], 0.2, 0.75)
+    res = ExactWrightFisher.S_kvec_M_both_logsumexp([1,3,50], 0.2, 0.75)
+    @test res[1] ≈ Float64(ref[1])
+    @test res[2] ≈ Float64(ref[2])
+
+    ref = ExactWrightFisher.S_kvec_M_both_logsumexp_arb([1,3,50, 10], 0.0002, 0.075)
+    res = ExactWrightFisher.S_kvec_M_both_logsumexp([1,3,50, 10], 0.0002, 0.075)
+    @test res[1] ≈ Float64(ref[1])
+    @test res[2] ≈ Float64(ref[2])
     # res = ExactWrightFisher.S_kvec_M_both_logsumexp([1,3,50, 10], 0.0002, 0.075)
     # @test res[1] ≈ -999287.7254125872 atol=10^(-8)
     # @test res[2] ≈ 855577.1585386565 atol=10^(-8)

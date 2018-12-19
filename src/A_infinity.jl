@@ -91,6 +91,30 @@ T<:Integer
 
   log_newterms = S_kvec_M_minus_log_newterms(kvec, t, θ)
   logsum_newterms =  signed_logsumexp(log_newterms, repeat([1.], length(log_newterms)))[2]
+
+  return S_kvec_M_both_logsumexp_inner(kvec, t, θ, logS_kvec_M_plus_res, log_newterms, logsum_newterms)
+end
+
+function S_kvec_M_both_logsumexp_arb(kvec::Array{T, 1}, t::Real, θ::Real) where
+T<:Integer
+  logS_kvec_M_plus_res = S_kvec_M_plus_logsum_arb(kvec, t, θ)
+  sgn_logS_kvec_M_plus_res = logS_kvec_M_plus_res[1]
+  sum_logS_kvec_M_plus_res = logS_kvec_M_plus_res[2]
+
+  log_newterms = S_kvec_M_minus_log_newterms(kvec, t, θ)
+  logsum_newterms =  signed_logsumexp_arb(log_newterms, repeat([1.], length(log_newterms)))[2]
+
+  return S_kvec_M_both_logsumexp_inner(kvec, t, θ, logS_kvec_M_plus_res, log_newterms, logsum_newterms)
+end
+
+function S_kvec_M_both_logsumexp_inner(kvec::Array{T, 1}, t::Real, θ::Real, logS_kvec_M_plus_res, log_newterms, logsum_newterms) where
+T<:Integer
+  # logS_kvec_M_plus_res = S_kvec_M_plus_logsum(kvec, t, θ)
+  sgn_logS_kvec_M_plus_res = logS_kvec_M_plus_res[1]
+  sum_logS_kvec_M_plus_res = logS_kvec_M_plus_res[2]
+
+  # log_newterms = S_kvec_M_minus_log_newterms(kvec, t, θ)
+  # logsum_newterms =  signed_logsumexp(log_newterms, repeat([1.], length(log_newterms)))[2]
   S_kvec_M_minus_res = 0.
 
   if sgn_logS_kvec_M_plus_res == -1
@@ -108,8 +132,6 @@ T<:Integer
   end
   return [S_kvec_M_minus_res, exp(sum_logS_kvec_M_plus_res)]
 end
-
-
 
 function Compute_A∞_start0(θ::Real, t::Real; m::T = 0, kvec::Array{T,1} = [0]) where
 T<:Integer
