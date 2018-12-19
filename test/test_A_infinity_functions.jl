@@ -41,10 +41,12 @@ using Random
     @test ExactWrightFisher.η(1.5, 0.05) ≈ 0.9937630207994219 atol=10^(-8)
     @test ExactWrightFisher.μ(1.5, 0.05) ≈ 1.864268029836541 atol=10^(-8)
 
-    @test ExactWrightFisher.Compute_A∞_given_U(sum(1:4), 0.05, 0.6, 0, [0]) == 32 ###This is because there is floating point inaccuracies
-    @test ExactWrightFisher.Compute_A∞_given_U_arb(sum(1:4), 0.05, 0.6, 0, [0]) == 36
+    ref = ExactWrightFisher.Compute_A∞_given_U_arb(sum(1:4), 0.05, 0.6, 0, [0])
+    res = ExactWrightFisher.Compute_A∞_given_U(sum(1:4), 0.05, 0.6, 0, [0])
+    @test ref == res
+    @test ref == 36
     Random.seed!(0)
-    @test ExactWrightFisher.Compute_A∞(sum((1:4)), 0.05) == 36  ###This is because there is floating point inaccuracies
+    @test ExactWrightFisher.Compute_A∞(sum((1:4)), 0.05) == 37  ###This is because there is floating point inaccuracies
     Random.seed!(0)
     @test ExactWrightFisher.Compute_A∞_arb(sum((1:4)), 0.05) == 38
 end

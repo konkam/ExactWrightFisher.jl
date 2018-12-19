@@ -62,6 +62,7 @@ function signed_logsumexp(lx, signs)
     return [-1.0, logsumexp(lx)]
   else
     n = length(lx)
+    # need the [] instead of the iterator because of https://github.com/JuliaStats/StatsFuns.jl/issues/63#issue-392732145
     @inbounds logsumexp_positive_terms = logsumexp([lx[i] for i in 1:n if signs[i] > 0])
     @inbounds logsumexp_negative_terms = logsumexp([lx[i] for i in 1:n if signs[i] < 0])
     if logsumexp_positive_terms > logsumexp_negative_terms
