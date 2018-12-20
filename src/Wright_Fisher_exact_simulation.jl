@@ -117,6 +117,7 @@ Wright_Fisher_K_dim_exact_transition([0.2, 0.4, 0.4], 0.5, α_vec)
 ```
 """
 Wright_Fisher_K_dim_exact_transition(xvec::AbstractVector{T}, t::Real, αvec::AbstractVector{T}) where T<:Real = Wright_Fisher_K_dim_exact_transition(xvec, t, αvec, sum(αvec))
+Wright_Fisher_K_dim_exact_transition_arb(xvec::AbstractVector{T}, t::Real, αvec::AbstractVector{T}) where T<:Real = Wright_Fisher_K_dim_exact_transition_arb(xvec, t, αvec, sum(αvec))
 
 function Wright_Fisher_K_dim_exact_transition(xvec::AbstractVector{T}, t::Real, αvec::AbstractVector{T}, sα::Real) where T<:Real
   # sα = sum(αvec)
@@ -130,6 +131,17 @@ function Wright_Fisher_K_dim_exact_transition(xvec::AbstractVector{T}, t::Real, 
   end
 end
 
+function Wright_Fisher_K_dim_exact_transition_arb(xvec::AbstractVector{T}, t::Real, αvec::AbstractVector{T}, sα::Real) where T<:Real
+  # sα = sum(αvec)
+  if t==0
+    return xvec
+  else
+    A∞ = Compute_A∞_arb(sα, t)
+    L = rand(Multinomial(A∞, xvec))
+    Y = rand(Dirichlet(L .+ αvec))
+    return Y
+  end
+end
 
 function cmp_K_dim_trajectory(initial_vec::AbstractVector{T}, times::AbstractVector{T}, transition_function::Function; use_progress_meter = false) where T<:Real
   trajectory = Array{Float64}(undef, length(initial_vec), length(times) + 1)
@@ -177,6 +189,16 @@ function Wright_Fisher_K_dim_exact_trajectory(initial_vec::AbstractVector{T}, ti
 
   function WF_exact_transition_function(st::AbstractVector{T}, dt::Real)::Vector{Float64}  where T<:Real
     return Wright_Fisher_K_dim_exact_transition(st, dt, αvec, sα)
+  end
+
+  return cmp_K_dim_trajectory(initial_vec, times, WF_exact_transition_function; use_progress_meter = use_progress_meter)
+end
+
+function Wright_Fisher_K_dim_exact_trajectory_arb(initial_vec::AbstractVector{T}, times::AbstractVector{T}, αvec::AbstractVector{T}; use_progress_meter = false) where T<:Real
+  sα = sum(αvec)
+
+  function WF_exact_transition_function(st::AbstractVector{T}, dt::Real)::Vector{Float64}  where T<:Real
+    return Wright_Fisher_K_dim_exact_transition_arb(st, dt, αvec, sα)
   end
 
   return cmp_K_dim_trajectory(initial_vec, times, WF_exact_transition_function; use_progress_meter = use_progress_meter)
