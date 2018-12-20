@@ -21,7 +21,7 @@ function Wright_Fisher_exact_transition_with_t005_approx(x::Real, t::Real, θ_1:
   elseif t<=0.05
     A∞ = Compute_A∞_approx(θ_1 + θ_2, t)
   else
-    A∞ = Compute_A∞(θ_1 + θ_2, t)
+    A∞ = Compute_A∞_arb(θ_1 + θ_2, t)
   end
   L = rand(Binomial(A∞, x))
   Y = rand(Beta(θ_1 + L, θ_2 + A∞ - L))
@@ -78,7 +78,7 @@ function Wright_Fisher_K_dim_transition_with_t005_approx(xvec::AbstractVector{T}
   elseif t<=0.05
     A∞ = Compute_A∞_approx(sα, t)
   else
-    A∞ = Compute_A∞(sα, t)
+    A∞ = Compute_A∞_arb(sα, t)
   end
   L = rand(Multinomial(A∞, xvec))
   Y = rand(Dirichlet(L .+ αvec))

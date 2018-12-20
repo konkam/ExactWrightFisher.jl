@@ -3,13 +3,12 @@ using Random, Distributions
 @testset "testing Wright-Fisher semi exact transition and simulation functions" begin
      #Commented lines should be valid when using the A∞ function starting at 0
      Random.seed!(0)
-     res = ExactWrightFisher.Wright_Fisher_exact_transition(0.5, 0.54, 0.75/2, 0.75/2)
+     ref = ExactWrightFisher.Wright_Fisher_exact_transition_arb(0.5, 0.54, 0.75/2, 0.75/2)
      Random.seed!(0)
-     @test ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0.54, 0.75/2, 0.75/2) ≈ res atol=10^(-8)
+     @test ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0.54, 0.75/2, 0.75/2) ≈ ref
      Random.seed!(0)
      @test ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0.0054, 0.75/2, 0.75/2) ≈ 0.5670049817247872 atol=10^(-8)
      Random.seed!(0)
-     ref =  ExactWrightFisher.Wright_Fisher_exact_trajectory(0.5, range(0.1, stop = 1, length = 5), 0.75/2, 0.75/2)
      Random.seed!(0)
      res =  ExactWrightFisher.Wright_Fisher_exact_trajectory_with_t005_approx(0.5, range(0.1, stop = 0.3, step = 0.04), 0.75/2, 0.75/2)
      for i in 1:length(res)
