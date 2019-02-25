@@ -4,5 +4,5 @@ os:
 julia:
   - 1.0
   - 1.1
-codecov: true
-coveralls: true
+# codecov: true
+# coveralls: true
