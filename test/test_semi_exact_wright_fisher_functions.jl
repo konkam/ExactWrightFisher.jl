@@ -9,7 +9,6 @@ using Random, Distributions
      Random.seed!(0)
      @test ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0.0054, 0.75/2, 0.75/2) ≈ 0.5670049817247872 atol=10^(-8)
      Random.seed!(0)
-     Random.seed!(0)
      res =  ExactWrightFisher.Wright_Fisher_exact_trajectory_with_t005_approx(0.5, range(0.1, stop = 0.3, step = 0.04), 0.75/2, 0.75/2)
      for i in 1:length(res)
          @test res[i] == [0.5, 0.7391267869778926, 0.8757863681090295, 0.7407268942746179, 0.7312077904902156, 0.6139664321183035, 0.708280926289272][i]
