@@ -22,4 +22,8 @@ using StatsFuns
     @test ExactWrightFisher.signed_logsumexp(BigFloat[0.2, -3., 1], BigFloat[1, 1, -1])[2] ≈ Float64(ref)
     @test ExactWrightFisher.signed_logsumexp([0.2, -3., 1], [1, 1, -1])[2] ≈ Float64(ref)
     @test ExactWrightFisher.signed_logsumexp([0.2, -3., 1], [-1, -1, -1])[2] ≈ logsumexp([0.2, -3., 1])
+
+    @test ExactWrightFisher.lgamma_local(1) == 0.0
+    @test ExactWrightFisher.lgamma_local(2) == 0.0
+    @test ExactWrightFisher.lgamma_local(3) == log(2)
 end

@@ -92,3 +92,22 @@ function signed_logsumexp_arb(lx, signs)
     res = sum(exp.(RR.(lx)) .* signs)
     return sign(res), log(abs(res))
 end
+
+
+"""
+    lgamma_local(x)
+
+Local version of the log gamma function, intended to be used on positive values. Actually calling the logabsgamma, so computes the logarithm of absolute value of gamma for Real x and returns `log(abs(gamma(x)))`.
+
+...
+# Arguments
+- `x`: a real number.
+...
+
+# Examples
+```julia-repl
+julia>lgamma_local(x)
+  3.1780538303479458
+```
+"""
+lgamma_local(x) = SpecialFunctions.logabsgamma(x)[1]

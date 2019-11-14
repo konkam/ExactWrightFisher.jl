@@ -13,7 +13,7 @@ function log_akmθ(θ::Real, k::Integer, m::Integer)
   if k == 0
     return 0
   else
-    return log(θ+2*k-1) + SpecialFunctions.lgamma(θ+m+k-1) - SpecialFunctions.lgamma(θ+m) - lfactorial(m) - lfactorial(k-m)
+    return log(θ+2*k-1) + lgamma_local(θ+m+k-1) - lgamma_local(θ+m) - logfactorial(m) - logfactorial(k-m)
   end
 end
 
