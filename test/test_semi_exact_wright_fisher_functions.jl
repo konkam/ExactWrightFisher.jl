@@ -6,6 +6,12 @@ using Random, Distributions
      ref = ExactWrightFisher.Wright_Fisher_exact_transition_arb(0.5, 0.54, 0.75/2, 0.75/2)
      Random.seed!(0)
      @test ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0.54, 0.75/2, 0.75/2) ≈ ref
+
+     @test_nowarn  ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0., 0.75/2, 0.75/2)
+
+     @test_nowarn  ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0.05, 0.75/2, 0.75/2)
+
+
      # Random.seed!(0)
      # ref = ExactWrightFisher.Wright_Fisher_exact_transition_arb(0.5, 0.0054, 0.75/2, 0.75/2)
      # Random.seed!(0)
@@ -25,6 +31,9 @@ using Random, Distributions
     for i in 1:length(res)
         @test res[i] ≈ ref[i]
     end
+
+     @test_nowarn ExactWrightFisher.Wright_Fisher_K_dim_exact_transition_arb(rand(Dirichlet(α_vec |> collect)), 0.0, α_vec, sum(α_vec))
+     @test_nowarn ExactWrightFisher.Wright_Fisher_K_dim_exact_transition_arb(rand(Dirichlet(α_vec |> collect)), 0.05, α_vec, sum(α_vec))
 
     # Random.seed!(0)
     # α_vec = (1:4)/4
