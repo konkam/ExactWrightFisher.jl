@@ -1,7 +1,7 @@
 name = "ExactWrightFisher"
 uuid = "8c1589a6-e1d0-11e8-3509-29fca4fccf6a"
 authors = ["konkam <guillaume.konkamking.work@gmail.com>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
