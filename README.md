@@ -31,7 +31,7 @@ A graphical comparison of simulated samples against the stationary distribution 
 Press `]` in the Julia interpreter to enter the Pkg mode and input:
 
 ```julia
-pkg> add https://github.com/konkam/ExactWrightFisher.jl
+pkg> add ExactWrightFisher
 ```
 
 # How to use the package
