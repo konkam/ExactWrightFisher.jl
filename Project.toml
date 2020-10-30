@@ -13,9 +13,9 @@ StatsFuns = "4c63d2b9-4356-54db-8cca-17b64c39e42c"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-Distributions = "0.23 - 0.40"
+Distributions = "0.23, 0.24"
 ProgressMeter = "1"
-Nemo = "0.18 - 0.30"
-SpecialFunctions = "0.9 - 0.20"
-StatsFuns = "0.9 - 0.20"
+Nemo = "0.18, 0.19"
+SpecialFunctions = "0.9, 0.10"
+StatsFuns = "0.9, 0.10"
 julia = "1"
