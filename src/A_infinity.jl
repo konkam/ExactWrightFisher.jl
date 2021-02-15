@@ -92,6 +92,8 @@ T<:Integer
   log_newterms = S_kvec_M_minus_log_newterms(kvec, t, θ)
   logsum_newterms =  signed_logsumexp(log_newterms, repeat([1.], length(log_newterms)))[2]
 
+  # println(logS_kvec_M_plus_res)
+
   return S_kvec_M_both_logsumexp_inner(kvec, t, θ, logS_kvec_M_plus_res, log_newterms, logsum_newterms)
 end
 
@@ -103,6 +105,8 @@ T<:Integer
 
   log_newterms = S_kvec_M_minus_log_newterms(kvec, t, θ)
   logsum_newterms =  signed_logsumexp_arb(log_newterms, repeat([1.], length(log_newterms)))[2]
+
+  # println(logS_kvec_M_plus_res)
 
   return S_kvec_M_both_logsumexp_inner(kvec, t, θ, logS_kvec_M_plus_res, log_newterms, logsum_newterms)
 end
@@ -142,17 +146,14 @@ T<:Integer
   return Compute_A∞_given_U_arb(θ, t, U, m, kvec)
 end
 
-function Compute_A∞_given_U(θ, t, U, m, kvec)
+function Compute_A∞_given_U(θ, t, U, m, kvec; debug = false)
   ### 0 indexing to stick with the article's notation
   while true
-    # n = n+1
-    # print(n)
-    # if (n > 100){
-    #   # return(m)
-    #   break()
-    # }
-    # print(m)
     kvec[m+1] = ceil(C_m_t_θ(m, t, θ)/2)
+    if debug
+      println("m=$m")
+      # println("km=$kvec")
+    end
     # kvec[m] = ceil(C_m_t_θ(m, t, θ)/2)
     # print(km)
     S_kvec_M_BOTH = S_kvec_M_both_logsumexp(kvec, t, θ)
@@ -169,22 +170,22 @@ function Compute_A∞_given_U(θ, t, U, m, kvec)
       push!(kvec,0)
       m = m + 1
     end
+    if debug
+      println("params = $kvec, $t, $θ")
+      println("S_kvec_M_BOTH=$S_kvec_M_BOTH")
+    end
   end
 end
 
-function Compute_A∞_given_U_arb(θ, t, U, m, kvec)
+function Compute_A∞_given_U_arb(θ, t, U, m, kvec; debug = false)
   ### 0 indexing to stick with the article's notation
   while true
-    # n = n+1
-    # print(n)
-    # if (n > 100){
-    #   # return(m)
-    #   break()
-    # }
-    # print(m)
     kvec[m+1] = ceil(C_m_t_θ(m, t, θ)/2)
     # kvec[m] = ceil(C_m_t_θ(m, t, θ)/2)
-    # print(km)
+    if debug
+      println("m=$m")
+      # println("kvec=$kvec")
+    end
     S_kvec_M_BOTH = S_kvec_M_both_logsumexp_arb(kvec, t, θ)
     while (S_kvec_M_BOTH[1] < U) && (S_kvec_M_BOTH[2] > U)
       kvec = kvec .+ 1
@@ -198,6 +199,10 @@ function Compute_A∞_given_U_arb(θ, t, U, m, kvec)
     elseif (S_kvec_M_BOTH[2] < U)
       push!(kvec,0)
       m = m + 1
+    end
+    if debug
+      println("params = $kvec, $t, $θ")
+      println("S_kvec_M_BOTH=$S_kvec_M_BOTH")
     end
   end
 end

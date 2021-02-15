@@ -9,6 +9,13 @@ using Random, Distributions
     @test res[1] == ref[1]
     @test res[2] ≈ Float64(ref[2])
 
+    kvec = [377, 371, 363, 354, 345, 336, 326, 316, 306, 295, 284, 273, 262, 251, 240, 229, 218, 207, 195, 183, 171, 159, 147, 135, 123, 111, 100, 89, 78, 67, 57, 46, 35, 24, 14]
+
+    ref = ExactWrightFisher.S_kvec_M_plus_logsum_arb(kvec, 0.05, sum(1:4))
+    res = ExactWrightFisher.S_kvec_M_plus_logsum(kvec, 0.05, sum(1:4))
+    @test res[1] == ref[1]
+    @test res[2] ≈ Float64(ref[2])
+
     ref = ExactWrightFisher.S_kvec_M_both_logsumexp_arb([1,3,5], 0.2, 0.75)
     res = ExactWrightFisher.S_kvec_M_both_logsumexp([1,3,5], 0.2, 0.75)
     @test res[1] ≈ Float64(ref[1])
@@ -21,6 +28,12 @@ using Random, Distributions
 
     ref = ExactWrightFisher.S_kvec_M_both_logsumexp_arb([1,3,50, 10], 0.0002, 0.075)
     res = ExactWrightFisher.S_kvec_M_both_logsumexp([1,3,50, 10], 0.0002, 0.075)
+    @test res[1] ≈ Float64(ref[1])
+    @test res[2] ≈ Float64(ref[2])
+
+    kvec = [377, 371, 363, 354, 345, 336, 326, 316, 306, 295, 284, 273, 262, 251, 240, 229, 218, 207, 195, 183, 171, 159, 147, 135, 123, 111, 100, 89, 78, 67, 57, 46, 35, 24, 14]
+    ref = ExactWrightFisher.S_kvec_M_both_logsumexp_arb(kvec, 0.05, sum(1:4))
+    res = ExactWrightFisher.S_kvec_M_both_logsumexp(kvec, 0.05, sum(1:4))
     @test res[1] ≈ Float64(ref[1])
     @test res[2] ≈ Float64(ref[2])
 

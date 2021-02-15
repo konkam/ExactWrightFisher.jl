@@ -79,6 +79,58 @@ function signed_logsumexp(lx, signs)
   end
 end
 
+function signed_logsumexp2(lx, signs; sorted = false)
+  if all(signs .> 0)
+    return [1.0, logsumexp(lx)]
+  elseif all(signs .< 0)
+    return [-1.0, logsumexp(lx)]
+  else
+    return signed_logsumexp2_inner(lx, signs; sorted = false)
+  end
+end
+
+
+function signed_logsumexp2_inner(lx, signs; sorted = false)
+  if !sorted
+    perm = sortperm(lx, rev = true)
+    lx = lx[perm]
+    signs = signs[perm]
+  end
+  if length(lx)==1
+    return [signs[1], lx[1]]
+  else
+    if signs[1] == signs[2]
+      sgn = signs[1]
+      m = max(lx[1], lx[2])
+      lres = m + log(exp(lx[1]-m) + exp(lx[2]-m))
+    else
+      if signs[1] > 0
+        if lx[1] > lx[2]
+          sgn = 1.
+          lres = log(1-exp(lx[2]-lx[1])) + lx[1]
+        else
+          sgn = -1.
+          lres = log(1-exp(lx[1]-lx[2])) + lx[2]
+        end
+      else
+        if lx[1] > lx[2]
+          sgn = -1.
+          lres = log(1-exp(lx[2]-lx[1])) + lx[1]
+        else
+          sgn = 1.
+          lres = log(1-exp(lx[1]-lx[2])) + lx[2]
+        end
+      end
+    end
+    # m = max(lx[1], lx[2])
+    # res = signs[1]*exp(lx[1]-m) + signs[2]*exp(lx[2]-m)
+    # sgn = sign(res)
+    # lres = log(abs(res))+m
+    return signed_logsumexp2_inner([lres; lx[3:end]], [sgn; signs[3:end]]; sorted = true)
+  end
+end
+
+
 import Base.sign
 
 function sign(x::arb)
