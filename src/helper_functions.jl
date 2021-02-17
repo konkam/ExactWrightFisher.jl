@@ -63,7 +63,7 @@ function signed_logsumexp(lx, signs)
   else
     n = length(lx)
     # need the [] instead of the iterator because of https://github.com/JuliaStats/StatsFuns.jl/issues/63#issue-392732145
-    @inbounds logsumexp_positive_terms = logsumexp([lx[i] for i in 1:n if signs[i] > 0])
+    @inbounds logsumexp_positive_terms = logsumexp([lx[i] for i in 1:n if signs[i] >= 0])
     @inbounds logsumexp_negative_terms = logsumexp([lx[i] for i in 1:n if signs[i] < 0])
     if logsumexp_positive_terms > logsumexp_negative_terms
       sgn = 1
@@ -71,6 +71,95 @@ function signed_logsumexp(lx, signs)
     elseif logsumexp_positive_terms < logsumexp_negative_terms
       sgn = -1
       res = log(1-exp(logsumexp_positive_terms - logsumexp_negative_terms)) + logsumexp_negative_terms
+    else
+      sgn = 1
+      res = -Inf
+    end
+    return [sgn, res]
+  end
+end
+
+function signed_logsumexp3(lx, signs)
+  # summing the positive terms together and the negative terms together should decrease the probability of cancellation of large terms
+  # @assert length(lx) == length(signs)
+  # pos = signs .== 1
+  if all(signs .> 0)
+    return [1.0, logsumexp(lx)]
+  elseif all(signs .< 0)
+    return [-1.0, logsumexp(lx)]
+  else
+    n = length(lx)
+    # need the [] instead of the iterator because of https://github.com/JuliaStats/StatsFuns.jl/issues/63#issue-392732145
+    @inbounds logsumexp_positive_terms = logsumexp([lx[i] for i in 1:n if signs[i] >= 0])
+    @inbounds logsumexp_negative_terms = logsumexp([lx[i] for i in 1:n if signs[i] < 0])
+    if logsumexp_positive_terms > logsumexp_negative_terms
+      sgn = 1
+      res = log(exp(1)-exp(logsumexp_negative_terms - logsumexp_positive_terms + 1)) + logsumexp_positive_terms - 1
+    elseif logsumexp_positive_terms < logsumexp_negative_terms
+      sgn = -1
+      res = log(exp(1)-exp(logsumexp_positive_terms - logsumexp_negative_terms + 1)) + logsumexp_negative_terms - 1
+    else
+      sgn = 1
+      res = -Inf
+    end
+    return [sgn, res]
+  end
+end
+
+function signed_logsumexp1pmexp(lx, signs)
+  # summing the positive terms together and the negative terms together should decrease the probability of cancellation of large terms
+  # @assert length(lx) == length(signs)
+  # pos = signs .== 1
+  if all(signs .> 0)
+    return [1.0, logsumexp(lx)]
+  elseif all(signs .< 0)
+    return [-1.0, logsumexp(lx)]
+  else
+    n = length(lx)
+    # need the [] instead of the iterator because of https://github.com/JuliaStats/StatsFuns.jl/issues/63#issue-392732145
+    @inbounds logsumexp_positive_terms = logsumexp([lx[i] for i in 1:n if signs[i] >= 0])
+    @inbounds logsumexp_negative_terms = logsumexp([lx[i] for i in 1:n if signs[i] < 0])
+    if logsumexp_positive_terms > logsumexp_negative_terms
+      sgn = 1
+      # res = log(1-exp(logsumexp_negative_terms - logsumexp_positive_terms)) + logsumexp_positive_terms
+      res = log1mexp(logsumexp_negative_terms - logsumexp_positive_terms) + logsumexp_positive_terms
+      println(logsumexp_negative_terms - logsumexp_positive_terms)
+    elseif logsumexp_positive_terms < logsumexp_negative_terms
+      sgn = -1
+      # res = log(1-exp(logsumexp_positive_terms - logsumexp_negative_terms)) + logsumexp_negative_terms
+      res = log1mexp(logsumexp_positive_terms - logsumexp_negative_terms) + logsumexp_negative_terms
+      println(logsumexp_positive_terms - logsumexp_negative_terms)
+    else
+      sgn = 1
+      res = -Inf
+    end
+    return [sgn, res]
+  end
+end
+
+function signed_logsumexp1p(lx, signs)
+  # summing the positive terms together and the negative terms together should decrease the probability of cancellation of large terms
+  # @assert length(lx) == length(signs)
+  # pos = signs .== 1
+  if all(signs .> 0)
+    return [1.0, logsumexp(lx)]
+  elseif all(signs .< 0)
+    return [-1.0, logsumexp(lx)]
+  else
+    n = length(lx)
+    # need the [] instead of the iterator because of https://github.com/JuliaStats/StatsFuns.jl/issues/63#issue-392732145
+    @inbounds logsumexp_positive_terms = logsumexp([lx[i] for i in 1:n if signs[i] >= 0])
+    @inbounds logsumexp_negative_terms = logsumexp([lx[i] for i in 1:n if signs[i] < 0])
+    if logsumexp_positive_terms > logsumexp_negative_terms
+      sgn = 1
+      # res = log(1-exp(logsumexp_negative_terms - logsumexp_positive_terms)) + logsumexp_positive_terms
+      res = log1p(-exp(logsumexp_negative_terms - logsumexp_positive_terms)) + logsumexp_positive_terms
+      println(logsumexp_negative_terms - logsumexp_positive_terms)
+    elseif logsumexp_positive_terms < logsumexp_negative_terms
+      sgn = -1
+      # res = log(1-exp(logsumexp_positive_terms - logsumexp_negative_terms)) + logsumexp_negative_terms
+      res = log1p(-exp(logsumexp_positive_terms - logsumexp_negative_terms)) + logsumexp_negative_terms
+      println(logsumexp_positive_terms - logsumexp_negative_terms)
     else
       sgn = 1
       res = -Inf

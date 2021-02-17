@@ -6,6 +6,21 @@ using StatsFuns
     res = ExactWrightFisher.signed_logsumexp(log.(1:5), repeat([1],5))
     @test res[1] == 1
     @test logsumexp(log.(1:5)) == res[2]
+    res = ExactWrightFisher.signed_logsumexp2(log.(1:5), repeat([1],5))
+    @test res[1] == 1
+    @test logsumexp(log.(1:5)) == res[2]
+    res = ExactWrightFisher.signed_logsumexp3(log.(1:5), repeat([1],5))
+    @test res[1] == 1
+    @test logsumexp(log.(1:5)) == res[2]
+    res = ExactWrightFisher.signed_logsumexp1pmexp(log.(1:5), repeat([1],5))
+    @test res[1] == 1
+    @test logsumexp(log.(1:5)) == res[2]
+    res = ExactWrightFisher.signed_logsumexp1p(log.(1:5), repeat([1],5))
+    @test res[1] == 1
+    @test logsumexp(log.(1:5)) == res[2]
+    res = ExactWrightFisher.signed_logsumexp_arb(log.(1:5), repeat([1],5))
+    @test res[1] == 1
+    @test logsumexp(log.(1:5)) == Float64(res[2])
 
     res = ExactWrightFisher.signed_logsumexp([2, 4, 2], [1, -1, 1])
     @test res[1] == -1.0
@@ -27,7 +42,16 @@ using StatsFuns
     logterms, signs = ExactWrightFisher.S_kvec_M_plus_logsum_pre_logsum(kvec, 0.05, 10)
 
     ref = ExactWrightFisher.signed_logsumexp_arb(logterms, signs)
-    res = ExactWrightFisher.signed_logsumexp(logterms, signs)
+    res = ExactWrightFisher.signed_logsumexp2(logterms, signs)
+    @test res[1] ≈ Float64(ref[1])
+    @test res[2] ≈ Float64(ref[2])
+    res = ExactWrightFisher.signed_logsumexp3(logterms, signs)
+    @test res[1] ≈ Float64(ref[1])
+    @test res[2] ≈ Float64(ref[2])
+    res = ExactWrightFisher.signed_logsumexp1p(logterms, signs)
+    @test res[1] ≈ Float64(ref[1])
+    @test res[2] ≈ Float64(ref[2])
+    res = ExactWrightFisher.signed_logsumexp1pmexp(logterms, signs)
     @test res[1] ≈ Float64(ref[1])
     @test res[2] ≈ Float64(ref[2])
 
