@@ -2,9 +2,9 @@
 
 [[AbstractAlgebra]]
 deps = ["InteractiveUtils", "LinearAlgebra", "Markdown", "Random", "RandomExtensions", "SparseArrays", "Test"]
-git-tree-sha1 = "7df2949bfd757e426897a4b579fbd5dc776ff8c9"
+git-tree-sha1 = "452f5cdc30c10a372d87cf60da4ead7c8cfc4548"
 uuid = "c3fe647b-3220-5bb0-a1ea-a7954cac585d"
-version = "0.12.0"
+version = "0.16.0"
 
 [[Antic_jll]]
 deps = ["Artifacts", "FLINT_jll", "GMP_jll", "JLLWrappers", "Libdl", "MPFR_jll", "Pkg"]
@@ -178,9 +178,9 @@ uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 
 [[Nemo]]
 deps = ["AbstractAlgebra", "Antic_jll", "Arb_jll", "BinaryProvider", "FLINT_jll", "InteractiveUtils", "Libdl", "LinearAlgebra", "LoadFlint", "Markdown", "Pkg", "Random", "RandomExtensions", "SHA", "Test"]
-git-tree-sha1 = "ee2916870c8da39715b6a195eb89f9471004fee7"
+git-tree-sha1 = "9cbb4100c92091ce04308e3df04030bd2eebc280"
 uuid = "2edaba10-b0f1-5616-af89-8c11ac63239a"
-version = "0.19.1"
+version = "0.22.1"
 
 [[NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
