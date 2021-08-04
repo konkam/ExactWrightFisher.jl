@@ -1,6 +1,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/konkam/ExactWrightFisher.jl/badge.svg?branch=master)](https://coveralls.io/github/konkam/ExactWrightFisher.jl?branch=master)
 [![codecov](https://codecov.io/gh/konkam/ExactWrightFisher.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/konkam/ExactWrightFisher.jl)
-[![Build Status](https://travis-ci.org/konkam/ExactWrightFisher.jl.svg?branch=master)](https://travis-ci.org/konkam/ExactWrightFisher.jl)
+
+![Build Status](https://github.com/konkam/ExactWrightFisher/actions/workflows/ci.yml/badge.svg)
 
 # ExactWrightFisher
 Exact simulation of the neutral Wright-Fisher diffusion.
