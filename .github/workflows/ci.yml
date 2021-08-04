@@ -43,9 +43,9 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           file: lcov.info
-        - uses: coverallsapp/github-action@master
-        with:
-          path-to-lcov: lcov.info
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-${{ matrix.os }}-${{ matrix.julia-version }}-${{ matrix.julia-arch }}
-          parallel: true
+      - uses: coverallsapp/github-action@master
+      with:
+        path-to-lcov: lcov.info
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        flag-name: run-${{ matrix.os }}-${{ matrix.julia-version }}-${{ matrix.julia-arch }}
+        parallel: true
