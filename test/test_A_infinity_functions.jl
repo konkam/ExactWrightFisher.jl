@@ -51,8 +51,18 @@ using Random, Distributions
     ref = ExactWrightFisher.Compute_A∞_given_U_arb(sum(1:4), 0.05, U, 0, [0])
     res = ExactWrightFisher.Compute_A∞_given_U(sum(1:4), 0.05, U, 0, [0])
 
-    Random.seed!(0)
-    @test ExactWrightFisher.Compute_A∞(sum((1:4)), 0.05) == 37  ###This is because there is floating point inaccuracies
-    Random.seed!(0)
-    @test ExactWrightFisher.Compute_A∞_arb(sum((1:4)), 0.05) == 38
+    if VERSION >= v"1.7"
+        Random.seed!(0)
+        ref = ExactWrightFisher.Compute_A∞(sum((1:4)), 0.05)
+        Random.seed!(0)
+        res = ExactWrightFisher.Compute_A∞(sum((1:4)), 0.05)
+        @test res == ref
+    else
+        Random.seed!(0)
+        @test ExactWrightFisher.Compute_A∞(sum((1:4)), 0.05) == 37  ###This is because there is floating point inaccuracies
+        Random.seed!(0)
+        @test ExactWrightFisher.Compute_A∞_arb(sum((1:4)), 0.05) == 38
+    end
+
+
 end
