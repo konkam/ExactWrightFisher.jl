@@ -27,11 +27,11 @@ function Wright_Fisher_exact_transition(x::Real, t::Real, θ_1::Real, θ_2::Real
     return Y
   end
 end
-function Wright_Fisher_exact_transition_arb(x::Real, t::Real, θ_1::Real, θ_2::Real)
+function Wright_Fisher_exact_transition_arb(x::Real, t::Real, θ_1::Real, θ_2::Real; verbose = false)
   if t == 0
     return x
   else
-    A∞ = Compute_A∞_arb(θ_1 + θ_2, t)
+    A∞ = Compute_A∞_arb(θ_1 + θ_2, t; verbose = verbose)
     L = rand(Binomial(A∞, x))
     Y = rand(Beta(θ_1 + L, θ_2 + A∞ - L))
     return Y
