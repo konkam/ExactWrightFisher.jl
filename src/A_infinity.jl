@@ -21,6 +21,36 @@ function log_bk_t_θ_t(k::Integer, t::Real, θ::Real, m::Integer)
   return log_akmθ(θ, k, m) - k*(k+θ-1)*t/2
 end
 
+function akmθ(θ, k::Integer, m::Integer)
+  if k < m
+    error("in akmθ, m<=k must be satisfied")
+  end
+  if k == 0
+    return 1
+  else
+    return exp(log(RR(θ)+2*k-1) + lgamma_local(RR(θ)+m+k-1) - lgamma_local(RR(θ)+m) - logfactorial(m) - logfactorial(k-m))
+  end
+end
+
+function bk_t_θ_t(k::Integer, t, θ, m::Integer)
+  akmθ(θ, k, m)*exp(-k*(k+RR(θ)-1)*t/2)
+end
+
+function S_kvec_minus(kvec::Array{T, 1}, M::T, t, θ) where T<:Integer
+  sum(sum(minus_1_power_i(i) * bk_t_θ_t(m + i, t, θ, m) for i in 0:(2*kvec[m+1]+1)) for m in 0:(M-1))
+end
+
+function S_kvec_plus(kvec::Array{T, 1}, M::T, t, θ) where T<:Integer
+  sum(sum(minus_1_power_i(i) * bk_t_θ_t(m + i, t, θ, m) for i in 0:(2*kvec[m+1])) for m in 0:(M-1))
+end
+
+function S_kvec_both(kvec::Array{T, 1}, M::T, t, θ) where T<:Integer
+  return S_kvec_minus(kvec, M, t, θ), S_kvec_plus(kvec, M, t, θ)
+end
+
+S_kvec_M_both(kvec::Array{T, 1}, t, θ) where T<:Integer = S_kvec_both(kvec, length(kvec), t, θ)
+
+
 function C_m_t_θ_rec(m::Integer, t::Real, θ::Real, log_bkm_current::Real, ind::Integer)
   log_b_im_p1 = log_bk_t_θ_t(m + ind + 1, t, θ, m)
   if log_bkm_current > log_b_im_p1
@@ -55,6 +85,28 @@ T<:Integer
   end
   return logterms, signs
 end
+
+function S_kvec_M_plus_logsum_pre_logsum_arb(kvec::Array{T, 1}, t::Real, θ::Real) where
+  T<:Integer
+    M = length(kvec)
+  
+    two_kvec_plus_1 = sum(2*kvec .+ 1)
+  
+    U = typeof(RR(t))
+  
+    logterms = Array{U}(undef, two_kvec_plus_1)
+    signs = Array{Float64}(undef, two_kvec_plus_1)
+    cnt = 1
+    for m in 0:(M-1)
+      for i in 0:(2*kvec[m+1])
+      # for(int i = 0; i <= 2*kvec[m]; ++i) {
+        logterms[cnt] = log_bk_t_θ_t(m+i, RR(t), RR(θ), m);
+        signs[cnt] = minus_1_power_i(i);
+        cnt += 1;
+      end
+    end
+    return logterms, signs
+  end
 
 function S_kvec_M_plus_logsum(kvec::Array{T, 1}, t::Real, θ::Real) where
 T<:Integer
@@ -190,6 +242,10 @@ function Compute_A∞_given_U_arb(θ, t, U, m, kvec)
       kvec = kvec .+ 1
       # print(kvec)
       S_kvec_M_BOTH = S_kvec_M_both_logsumexp_arb(kvec, t, θ)
+      if verbose
+        println("kvec = $kvec")
+        println("S_kvec_M_BOTH = $S_kvec_M_BOTH, U = $U")
+      end
     end
     if S_kvec_M_BOTH[1] > U
       # print(paste('A∞ = ', m))
