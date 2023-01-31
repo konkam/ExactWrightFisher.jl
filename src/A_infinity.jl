@@ -271,6 +271,8 @@ end
 function η_of_β(β::Real)
   if β == 1
     return 1
+  elseif β == 0
+    return 0
   else
     return β/(exp(β)-1)
   end
