@@ -10,14 +10,11 @@ using Random, Distributions
     @test res ≈ ref
 
 ################ This is a case where the error plays a role
-    Random.seed!(1);
-    ref = ExactWrightFisher.Wright_Fisher_exact_transition_arb(0.5, 0.04, 2, 2)
-    Random.seed!(1);
-    res = ExactWrightFisher.Wright_Fisher_exact_transition(0.5, 0.04, 2, 2)
+
     # @test res ≈ ref In this case there is a difference
 
     Random.seed!(seed);
-    ref = ExactWrightFisher.Wright_Fisher_exact_transition_arb(0.5, 0.05, 2, 2)
+    ref = ExactWrightFisher.Wright_Fisher_exact_transition_arb(0.5, 0.05, 2, 2; verbose = true)
     Random.seed!(seed);
     res = ExactWrightFisher.Wright_Fisher_exact_transition(0.5, 0.05, 2, 2)
     @test res ≈ ref
@@ -66,4 +63,17 @@ using Random, Distributions
     # end
     @test_nowarn ExactWrightFisher.Wright_Fisher_K_dim_exact_trajectory_arb(rand(Dirichlet(α_vec |> collect)), range(0, stop = 1, length = 10), α_vec; use_progress_meter = true)
     @test_nowarn ExactWrightFisher.Wright_Fisher_K_dim_exact_trajectory(rand(Dirichlet(α_vec |> collect)), range(0, stop = 1, length = 10), α_vec; use_progress_meter = true)
+
+
+
+    K = 4
+    α = ones(K)* 1. /K
+    sα = sum(α)
+    Pop_size_WF3 = 15
+    Ntimes_WF3 = 3
+    time_step_WF3 = 0.1
+    time_grid_WF3 = [k*time_step_WF3 for k in 0:(Ntimes_WF3-1)]
+    Random.seed!(4)
+    wfchain_WF3 = Wright_Fisher_K_dim_exact_trajectory(rand(Dirichlet(K,0.3)), time_grid_WF3[1:(end-1)], α)
+    @test isreal(sum(wfchain_WF3))
 end
