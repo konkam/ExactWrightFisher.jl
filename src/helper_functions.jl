@@ -111,3 +111,22 @@ julia>lgamma_local(x)
 ```
 """
 lgamma_local(x) = SpecialFunctions.logabsgamma(x)[1]
+
+
+"""
+    lgamma_local(x)
+
+Local version of the log gamma function, intended to be used on positive values. The arbitrary precision version of the function actually redirects to Nemp.
+
+...
+# Arguments
+- `x`: a real number.
+...
+
+# Examples
+```julia-repl
+julia>lgamma_local(ExactWrightFisher.RR(3))
+  3.1780538303479458
+```
+"""
+lgamma_local(x::Nemo.arb) = log(abs(Nemo.gamma(x)))
