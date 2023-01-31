@@ -6,7 +6,7 @@ using Distributions, SpecialFunctions
 
 ``\$ a_{km}^θ = \frac{()θ+2k-1)(θ+m)_{(k-1)}}{m!(k-m)!}\$``
 """
-function log_akmθ(θ::Real, k::Integer, m::Integer)
+function log_akmθ(θ, k::Integer, m::Integer)
   if k < m
     error("in akmθ, m<=k must be satisfied")
   end
@@ -17,7 +17,7 @@ function log_akmθ(θ::Real, k::Integer, m::Integer)
   end
 end
 
-function log_bk_t_θ_t(k::Integer, t::Real, θ::Real, m::Integer)
+function log_bk_t_θ_t(k::Integer, t, θ, m::Integer)
   return log_akmθ(θ, k, m) - k*(k+θ-1)*t/2
 end
 
@@ -64,8 +64,7 @@ function C_m_t_θ(m::Integer, t::Real, θ::Real)
   return C_m_t_θ_rec(m, t, θ, log_bk_t_θ_t(m, t, θ, m), 0)
 end
 
-function S_kvec_M_plus_logsum_pre_logsum(kvec::Array{T, 1}, t::Real, θ::Real) where
-T<:Integer
+function S_kvec_M_plus_logsum_pre_logsum(kvec::Array{T, 1}, t::Real, θ::Real) where T<:Integer
   M = length(kvec)
 
   two_kvec_plus_1 = sum(2*kvec .+ 1)
@@ -116,8 +115,9 @@ end
 
 function S_kvec_M_plus_logsum_arb(kvec::Array{T, 1}, t::Real, θ::Real) where
 T<:Integer
-  logterms, signs = S_kvec_M_plus_logsum_pre_logsum(kvec, t, θ)
-  return signed_logsumexp_arb(logterms, signs)
+# logterms, signs = S_kvec_M_plus_logsum_pre_logsum(kvec, t, θ)
+logterms, signs = S_kvec_M_plus_logsum_pre_logsum_arb(kvec, t, θ)
+return signed_logsumexp_arb(logterms, signs)
 end
 
 S_kvec_M_plus_logsum_nosign(kvec::Array{T, 1}, t::Real, θ::Real) where
@@ -138,8 +138,8 @@ end
 function S_kvec_M_both_logsumexp(kvec::Array{T, 1}, t::Real, θ::Real) where
 T<:Integer
   logS_kvec_M_plus_res = S_kvec_M_plus_logsum(kvec, t, θ)
-  sgn_logS_kvec_M_plus_res = logS_kvec_M_plus_res[1]
-  sum_logS_kvec_M_plus_res = logS_kvec_M_plus_res[2]
+  # sgn_logS_kvec_M_plus_res = logS_kvec_M_plus_res[1]
+  # sum_logS_kvec_M_plus_res = logS_kvec_M_plus_res[2]
 
   log_newterms = S_kvec_M_minus_log_newterms(kvec, t, θ)
   logsum_newterms =  signed_logsumexp(log_newterms, repeat([1.], length(log_newterms)))[2]
@@ -150,8 +150,8 @@ end
 function S_kvec_M_both_logsumexp_arb(kvec::Array{T, 1}, t::Real, θ::Real) where
 T<:Integer
   logS_kvec_M_plus_res = S_kvec_M_plus_logsum_arb(kvec, t, θ)
-  sgn_logS_kvec_M_plus_res = logS_kvec_M_plus_res[1]
-  sum_logS_kvec_M_plus_res = logS_kvec_M_plus_res[2]
+  # sgn_logS_kvec_M_plus_res = logS_kvec_M_plus_res[1]
+  # sum_logS_kvec_M_plus_res = logS_kvec_M_plus_res[2]
 
   log_newterms = S_kvec_M_minus_log_newterms(kvec, t, θ)
   logsum_newterms =  signed_logsumexp_arb(log_newterms, repeat([1.], length(log_newterms)))[2]
@@ -188,10 +188,10 @@ T<:Integer
   return Compute_A∞_given_U(θ, t, U, m, kvec)
 end
 
-function Compute_A∞_start0_arb(θ::Real, t::Real; m::T = 0, kvec::Array{T,1} = [0]) where
+function Compute_A∞_start0_arb(θ::Real, t::Real; m::T = 0, kvec::Array{T,1} = [0], verbose = false) where
 T<:Integer
   U = rand(Uniform())
-  return Compute_A∞_given_U_arb(θ, t, U, m, kvec)
+  return Compute_A∞_given_U_arb(θ, t, U, m, kvec; verbose = verbose)
 end
 
 function Compute_A∞_given_U(θ, t, U, m, kvec)
@@ -224,7 +224,7 @@ function Compute_A∞_given_U(θ, t, U, m, kvec)
   end
 end
 
-function Compute_A∞_given_U_arb(θ, t, U, m, kvec)
+function Compute_A∞_given_U_arb(θ, t, U, m, kvec; verbose = false)
   ### 0 indexing to stick with the article's notation
   while true
     # n = n+1
@@ -235,7 +235,7 @@ function Compute_A∞_given_U_arb(θ, t, U, m, kvec)
     # }
     # print(m)
     kvec[m+1] = ceil(C_m_t_θ(m, t, θ)/2)
-    # kvec[m] = ceil(C_m_t_θ(m, t, θ)/2)
+     # kvec[m] = ceil(C_m_t_θ(m, t, θ)/2)
     # print(km)
     S_kvec_M_BOTH = S_kvec_M_both_logsumexp_arb(kvec, t, θ)
     while (S_kvec_M_BOTH[1] < U) && (S_kvec_M_BOTH[2] > U)
@@ -291,13 +291,19 @@ function Compute_A∞_good_m_start(θ::Real, t::Real)
   return Compute_A∞_start0(θ, t, m = m0, kvec = kvec0)
 end
 
-function Compute_A∞_good_m_start_arb(θ::Real, t::Real)
+function Compute_A∞_good_m_start_arb(θ::Real, t::Real; verbose = false)
+
+  aa = μ(t, θ)
+  if isnan(aa)
+    println("t = $t, θ = $θ")
+  end
+
   m0::Int64 = μ(t, θ) |> round
   # println(m0)
   kvec0::Array{Int64,1} = ceil.(C_m_t_θ.(0:m0, t, θ) ./ 2)
   # println(kvec0)
   # println(length(kvec0))
-  return Compute_A∞_start0_arb(θ, t, m = m0, kvec = kvec0)
+  return Compute_A∞_start0_arb(θ, t, m = m0, kvec = kvec0; verbose = verbose)
 end
 
 """
@@ -313,4 +319,6 @@ julia> ExactWrightFisher.Compute_A∞(1.5, 1.)
 ```
 """
 Compute_A∞(θ::Real, t::Real) = Compute_A∞_good_m_start(θ, t)
-Compute_A∞_arb(θ::Real, t::Real) = Compute_A∞_good_m_start_arb(θ, t)
+Compute_A∞_arb(θ::Real, t::Real; verbose = false) = Compute_A∞_good_m_start_arb(θ, t; verbose = verbose)
+# Compute_A∞(θ::Real, t::Real) = Compute_A∞_start0(θ, t)
+# Compute_A∞_arb(θ::Real, t::Real; verbose = false) = Compute_A∞_start0_arb(θ, t; verbose = verbose)
