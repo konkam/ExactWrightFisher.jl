@@ -81,16 +81,17 @@ end
 
 import Base.sign
 
-function sign(x::arb)
+function sign(x::Union{Nemo.arb, RealFieldElem})
     if x < 0
         return -1
     else
         return 1
     end
 end
+
 function signed_logsumexp_arb(lx, signs)
     res = sum(exp.(RR.(lx)) .* signs)
-    return sign(res), log(abs(res))
+    return sign(RR(res)), log(abs(res))
 end
 
 
@@ -129,4 +130,5 @@ julia>lgamma_local(ExactWrightFisher.RR(3))
   3.1780538303479458
 ```
 """
-lgamma_local(x::Nemo.arb) = log(abs(Nemo.gamma(x)))
+# lgamma_local(x::Nemo.arb) = log(abs(Nemo.gamma(x)))
+lgamma_local(x::Union{Nemo.arb, RealFieldElem}) = Nemo.lgamma(x)
