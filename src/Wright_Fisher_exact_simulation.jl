@@ -47,7 +47,7 @@ function cmp_1D_trajectory(initial_value::Real, times::AbstractVector{T}, transi
   if use_progress_meter
     # println("using the progress meter")
     @showprogress 3 "Computing trajectory..." for i in 2:imax
-    p = Progress(i, 2, "Computing initial pass...", imax)
+    # p = Progress(i; dt = 2, desc = "Computing initial pass...")
     println("$(i-1) out of $(imax-1) iterations")
       trajectory[i] = transition_function(trajectory[i-1], times_with_0[i] - times_with_0[i-1])
     end

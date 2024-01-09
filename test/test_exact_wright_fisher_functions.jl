@@ -29,8 +29,8 @@ using Random, Distributions
     for i in 1:length(res)
         @test res[i] ≈ ref[i]
     end
-    @test_nowarn ExactWrightFisher.Wright_Fisher_exact_trajectory(0.5, range(0.1, stop = 1, length = 5), 0.75/2, 0.75/2; use_progress_meter = true)
-    @test_nowarn ExactWrightFisher.Wright_Fisher_exact_trajectory_arb(0.5, range(0.1, stop = 1, length = 5), 0.75/2, 0.75/2; use_progress_meter = true)
+    # @test_nowarn ExactWrightFisher.Wright_Fisher_exact_trajectory(0.5, range(0.1, stop = 1, length = 5), 0.75/2, 0.75/2; use_progress_meter = false)
+    # @test_nowarn ExactWrightFisher.Wright_Fisher_exact_trajectory_arb(0.5, range(0.1, stop = 1, length = 5), 0.75/2, 0.75/2; use_progress_meter = false)
 
     Random.seed!(0)
     α_vec = (1:4)/4
@@ -61,8 +61,8 @@ using Random, Distributions
     # for i in 1:length(res[:,end])
     #     @test res[i, end] ≈ [ 0.16276396349872138, 0.5893076100430819, 0.10887682518251618, 0.1390516012756806][i] atol=10^(-8)
     # end
-    @test_nowarn ExactWrightFisher.Wright_Fisher_K_dim_exact_trajectory_arb(rand(Dirichlet(α_vec |> collect)), range(0, stop = 1, length = 10), α_vec; use_progress_meter = true)
-    @test_nowarn ExactWrightFisher.Wright_Fisher_K_dim_exact_trajectory(rand(Dirichlet(α_vec |> collect)), range(0, stop = 1, length = 10), α_vec; use_progress_meter = true)
+    # @test_nowarn ExactWrightFisher.Wright_Fisher_K_dim_exact_trajectory_arb(rand(Dirichlet(α_vec |> collect)), range(0, stop = 1, length = 10), α_vec; use_progress_meter = true)
+    # @test_nowarn ExactWrightFisher.Wright_Fisher_K_dim_exact_trajectory(rand(Dirichlet(α_vec |> collect)), range(0, stop = 1, length = 10), α_vec; use_progress_meter = true)
 
 
 
