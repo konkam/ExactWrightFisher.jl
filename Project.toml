@@ -14,7 +14,7 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 Distributions = "0.23, 0.24, 0.25"
-Nemo = "0.39"
+Nemo = "0.39, 0.40"
 ProgressMeter = "1"
 SpecialFunctions = "0.9, 0.10, 1.0, 1.3, 1.6, 2"
 StatsFuns = "0.9, 0.10, 1"
