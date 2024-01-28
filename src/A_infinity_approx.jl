@@ -25,4 +25,3 @@ function Compute_A∞_approx(θ::Real, t::Real)
     A∞_real = round(rand(Normal(μ(t, θ), σ(t, θ))))
     return max(0, Int64(A∞_real))
 end
-"""
