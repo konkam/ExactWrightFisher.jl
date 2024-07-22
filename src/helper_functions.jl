@@ -117,7 +117,7 @@ lgamma_local(x) = SpecialFunctions.logabsgamma(x)[1]
 """
     lgamma_local(x)
 
-Local version of the log gamma function, intended to be used on positive values. The arbitrary precision version of the function actually redirects to Nemp.
+Local version of the log gamma function, intended to be used on positive values. The arbitrary precision version of the function actually redirects to Nemo.
 
 ...
 # Arguments
