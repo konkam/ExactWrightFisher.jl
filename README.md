@@ -10,9 +10,11 @@ Implementation of the exact simulation scheme of Jenkins, P. A., Spano, D. (2017
 
 We consider a continuous time version of the multi-dimensional [Wright-Fisher model](https://en.wikipedia.org/wiki/Genetic_drift), which is a stochastic differential equation.
 
-The 1-dimensional version of the Wright-Fisher model is defined by the following equation:
+The 1-dimensional version of the neutral Wright-Fisher model is a diffusion in $[0,1]$ defined by the following equation:
 
-![](latex_equations/CodeCogsEqn.gif)
+$$
+d \mathbb{X}_t = \frac{1}{2}\left(\theta_1(1-X_t) + \theta_2X_t\right)dt + \sqrt{X_t(1-X_t)}dB_t, \qquad X_0 = x_0, t \in [0,T]
+$$
 
 The multi-dimensional version is more easily expressed with the generator of the stochastic process:
 
