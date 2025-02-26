@@ -16,13 +16,13 @@ $$
 d \mathbb{X}_t = \frac{1}{2}\left(\theta_1(1-X_t) + \theta_2X_t\right)dt + \sqrt{X_t(1-X_t)}dB_t, \qquad X_0 = x_0, t \in [0,T]
 $$
 
-The multi-dimensional version is more easily expressed with the generator of the stochastic process:
+The multi-dimensional version is more easily expressed with the generator of the stochastic process: 
 
-![](latex_equations/wright-fisher-dim-K.gif)
+$$\mathcal{A} = \frac{1}{2} \sum_{k=1}^{K} \left( \alpha_k - |\alpha| x_k \right) \frac{\partial}{\partial x_k} + \frac{1}{2} \sum_{i,j=1}^{K} x_i (\delta_{ij} - x_j) \frac{\partial^2}{\partial x_i \partial x_j}$$
 
-where ![](latex_equations/alpha_k.gif).
+where $$\left| \alpha \right| = \sum_{k=1}^K \alpha_k$$.
 
-The scheme uses a retrospective approach similar to the *exact algorithms* of Beskos (2005), and employs the *alternating series trick* by Devroye to sample from an infinite series expansion of the transition function for the Wright-Fisher process.
+The scheme uses a retrospective approach similar to the *exact algorithms* of Beskos (2005). It employs the *alternating series trick* by Devroye to sample from an infinite series expansion of the transition function for the Wright-Fisher process.
 
 This scheme may become inefficient for very short time steps, but a good approximation may then be used.
 
@@ -44,7 +44,7 @@ To load the package, input:
 ```julia
 using ExactWrightFisher, Random, Distributions
 ```
-Then to sample from the transition density of a K dimensional Wright Fisher process, do:
+Then, to sample from the transition density of a K-dimensional Wright-Fisher process, do:
 
 ```julia
 Random.seed!(0);
@@ -56,7 +56,7 @@ Wright_Fisher_K_dim_exact_transition([0.2, 0.4, 0.4], 0.5, α_vec)
  0.44107767330289566
 ```
 
-To sample a full trajectory, do:
+To sample an entire trajectory, do:
 
 ```julia
 Random.seed!(0);
@@ -74,7 +74,7 @@ See also `Wright_Fisher_exact_transition`, and `Wright_Fisher_exact_trajectory` 
 
 The exact algorithm may hang for small time steps, in practice around 0.05.
 
-However, in this case a very good normal approximation of the transition function is available.
+However, in this case, a very good normal approximation of the transition function is available.
 
 Functions that use the exact algorithm for large time steps and fall back to the approximation for small time steps are available as: `Wright_Fisher_exact_transition_with_t005_approx`, `Wright_Fisher_exact_trajectory_with_t005_approx`,  `Wright_Fisher_K_dim_transition_with_t005_approx`, `Wright_Fisher_K_dim_trajectory_with_t005_approx`.
 
