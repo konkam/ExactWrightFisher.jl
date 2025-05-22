@@ -27,7 +27,12 @@ jobs:
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: actions/cache@v1
+      - uses: actions/checkout@v2
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
+      - uses: actions/cache@v3
         env:
           cache-name: cache-artifacts
         with:
@@ -49,3 +54,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: run-${{ matrix.os }}-${{ matrix.julia-version }}-${{ matrix.julia-arch }}
           parallel: true
+
