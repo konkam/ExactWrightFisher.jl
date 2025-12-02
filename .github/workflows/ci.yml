@@ -1,12 +1,12 @@
 name: CI
+
 on:
   pull_request:
-    branches:
-      - master
   push:
     branches:
       - master
     tags: '*'
+
 jobs:
   test:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
@@ -15,18 +15,13 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.7' # Replace this with the minimum Julia version that your package supports. E.g. if your package requires Julia 1.5 or higher, change this to '1.5'.
-          - '1' # Leave this line unchanged. '1' will automatically expand to the latest stable 1.x release of Julia.
+          - '1.10' # LTS
+          - '1'    # Latest stable 1.x
         os:
           - ubuntu-latest
         arch:
           - x64
     steps:
-      - uses: actions/checkout@v2
-      - uses: julia-actions/setup-julia@v1
-        with:
-          version: ${{ matrix.version }}
-          arch: ${{ matrix.arch }}
       - uses: actions/checkout@v2
       - uses: julia-actions/setup-julia@v1
         with:
@@ -42,6 +37,8 @@ jobs:
             ${{ runner.os }}-test-${{ env.cache-name }}-
             ${{ runner.os }}-test-
             ${{ runner.os }}-
+      - name: Instantiate and update to latest allowed deps
+        run: julia --project=. -e 'using Pkg; isfile("Manifest.toml") && rm("Manifest.toml"); Pkg.instantiate(); Pkg.update()'
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
       - uses: julia-actions/julia-processcoverage@v1
@@ -52,6 +49,6 @@ jobs:
         with:
           path-to-lcov: lcov.info
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-${{ matrix.os }}-${{ matrix.julia-version }}-${{ matrix.julia-arch }}
+          flag-name: run-${{ matrix.os }}-${{ matrix.version }}-${{ matrix.arch }}
           parallel: true
 
