@@ -16,7 +16,7 @@ jobs:
       matrix:
         julia-version: ['1.10', '1.12']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Julia
         uses: julia-actions/setup-julia@v2
@@ -42,7 +42,7 @@ jobs:
       github.event.pull_request.user.login == 'dependabot[bot]' &&
       needs.test.result == 'success'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Enable auto-merge for Dependabot PRs
         run: gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
