@@ -26,7 +26,7 @@ jobs:
       - uses: julia-actions/cache@v2
 
       - name: Install dependencies
-        run: julia --project=. -e "using Pkg; Pkg.resolve(); Pkg.instantiate()"
+        run: julia --project=. -e "using Pkg; Pkg.instantiate()"
 
       - name: Run tests
         run: julia --project=. -e "using Pkg; Pkg.test(; coverage=false)"
