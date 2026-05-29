@@ -42,6 +42,8 @@ jobs:
       github.event.pull_request.user.login == 'dependabot[bot]' &&
       needs.test.result == 'success'
     steps:
+      - uses: actions/checkout@v4
+
       - name: Enable auto-merge for Dependabot PRs
         run: gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
         env:
