@@ -26,10 +26,10 @@ jobs:
       - uses: julia-actions/cache@v2
 
       - name: Install dependencies
-        run: julia -e "using Pkg; Pkg.instantiate();"
+        run: julia --project=. -e "using Pkg; Pkg.instantiate()"
 
       - name: Run tests
-        run: julia -e "using Pkg; Pkg.test(; coverage=false)"
+        run: julia --project=. -e "using Pkg; Pkg.test(; coverage=false)"
 
   automerge:
     needs: test
