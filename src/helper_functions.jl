@@ -79,19 +79,17 @@ function signed_logsumexp(lx, signs)
   end
 end
 
-import Base.sign
+"""
+    _arb_sign(x)
 
-function sign(x::Union{Nemo.arb, RealFieldElem})
-    if x < 0
-        return -1
-    else
-        return 1
-    end
-end
+Return -1 if `x < 0`, otherwise 1. Local helper to avoid type piracy on `Base.sign`
+for Nemo types.
+"""
+_arb_sign(x) = x < 0 ? -1 : 1
 
 function signed_logsumexp_arb(lx, signs)
     res = sum(exp.(RR.(lx)) .* signs)
-    return sign(RR(res)), log(abs(res))
+    return _arb_sign(RR(res)), log(abs(res))
 end
 
 
