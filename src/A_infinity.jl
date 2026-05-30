@@ -209,7 +209,7 @@ function Compute_A∞_given_U(θ, t, U, m, kvec)
     # print(km)
     S_kvec_M_BOTH = S_kvec_M_both_logsumexp(kvec, t, θ)
     while (S_kvec_M_BOTH[1] < U) && (S_kvec_M_BOTH[2] > U)
-      kvec = kvec .+ 1
+      @. kvec += 1
       # print(kvec)
       S_kvec_M_BOTH = S_kvec_M_both_logsumexp(kvec, t, θ)
     end
@@ -239,7 +239,7 @@ function Compute_A∞_given_U_arb(θ, t, U, m, kvec; verbose = false)
     # print(km)
     S_kvec_M_BOTH = S_kvec_M_both_logsumexp_arb(kvec, t, θ)
     while (S_kvec_M_BOTH[1] < U) && (S_kvec_M_BOTH[2] > U)
-      kvec = kvec .+ 1
+      @. kvec += 1
       # print(kvec)
       S_kvec_M_BOTH = S_kvec_M_both_logsumexp_arb(kvec, t, θ)
       if verbose
