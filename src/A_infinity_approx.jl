@@ -1,4 +1,4 @@
-function σ(t::Real, θ::Real)
+function σ2(t::Real, θ::Real)
   if θ == 1
     return  2/(3*t)
   else
@@ -6,6 +6,10 @@ function σ(t::Real, θ::Real)
     η_θ_t = η_of_β(β_θ_t)
     return 2*η_θ_t/t*(η_θ_t+β_θ_t)^2*(1+η_θ_t/(η_θ_t+β_θ_t)-2*η_θ_t)/β_θ_t^2
   end
+end
+
+function σ(θ::Real, t::Real)
+    return sqrt(σ2(t, θ))
 end
 
 """
@@ -22,6 +26,6 @@ Outputs:
 """
 
 function Compute_A∞_approx(θ::Real, t::Real)
-    A∞_real = round(rand(Normal(μ(t, θ), σ(t, θ))))
+    A∞_real = round(rand(Normal(μ(t, θ), σ2(t, θ))))
     return max(0, Int64(A∞_real))
 end
