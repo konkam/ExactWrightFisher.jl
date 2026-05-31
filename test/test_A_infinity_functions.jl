@@ -1,6 +1,13 @@
 using Random, Distributions
 
 @testset "testing Ancestor(A∞) functions" begin
+    # Edge case: k == 0 (shortcut path used densely in the algorithm)
+    @test ExactWrightFisher.log_akmθ(0.75, 0, 0) == 0
+    @test ExactWrightFisher.log_akmθ(1.0, 0, 0) == 0
+    @test ExactWrightFisher.log_akmθ(0.0, 0, 0) == 0
+    @test ExactWrightFisher.akmθ(0.75, 0, 0) == 1
+    @test ExactWrightFisher.akmθ(1.0, 0, 0) == 1
+
     @test ExactWrightFisher.log_akmθ(0.75, 6, 4) ≈ 8.026285751157305 atol=10^(-8)
     @test Float64(log(ExactWrightFisher.akmθ(0.75, 6, 4))) ≈ 8.026285751157305 atol=10^(-8)
     @test ExactWrightFisher.log_bk_t_θ_t(8, 0.2, 0.75, 6) ≈ 5.072288573098844 atol=10^(-8)

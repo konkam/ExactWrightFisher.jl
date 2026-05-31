@@ -7,9 +7,12 @@ using Random, Distributions
      Random.seed!(0)
      @test ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0.54, 0.75/2, 0.75/2) ≈ ref
 
-     @test_nowarn  ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0., 0.75/2, 0.75/2)
-
-     @test_nowarn  ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0.05, 0.75/2, 0.75/2)
+     # Edge case: t == 0 should return the starting point unchanged
+     @test ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0., 0.75/2, 0.75/2) == 0.5
+     @test ExactWrightFisher.Wright_Fisher_exact_transition_with_t005_approx(0.5, 0.05, 0.75/2, 0.75/2) !== nothing
+     xvec = [0.2, 0.3, 0.5]
+     α_vec2 = [1.0, 2.0, 3.0]
+     @test ExactWrightFisher.Wright_Fisher_K_dim_transition_with_t005_approx(xvec, 0.0, α_vec2, sum(α_vec2)) == xvec
 
 
      # Random.seed!(0)

@@ -1,6 +1,14 @@
 using Random, Distributions
 
 @testset "testing Wright-Fisher transition and simulation functions" begin
+    # Edge case: t == 0 should return the starting point/state unchanged
+    @test ExactWrightFisher.Wright_Fisher_exact_transition(0.5, 0.0, 0.75/2, 0.75/2) == 0.5
+    @test ExactWrightFisher.Wright_Fisher_exact_transition_arb(0.3, 0.0, 1.0, 1.0) == 0.3
+    xvec = [0.2, 0.3, 0.5]
+    α_vec = [1.0, 2.0, 3.0]
+    @test ExactWrightFisher.Wright_Fisher_K_dim_exact_transition(xvec, 0.0, α_vec) == xvec
+    @test ExactWrightFisher.Wright_Fisher_K_dim_exact_transition_arb(xvec, 0.0, α_vec) == xvec
+
     #Commented lines should be valid when using the A∞ function starting at 0
     seed = 1
     Random.seed!(seed);
