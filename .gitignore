@@ -4,3 +4,5 @@
 deps/deps.jl
 docs/build/*
 test/*checkpoint*
+arXiv-1506.06998v4
+manifest.toml
